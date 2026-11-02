@@ -225,7 +225,7 @@ jobs:
           for p in $TS_PACKAGES tests/e2e; do
             if [ -f "$p/package-lock.json" ]; then (cd "$p" && npm audit --audit-level=high --omit=dev); fi
           done
-      - uses: gitleaks/gitleaks-action@v2
+      - uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
