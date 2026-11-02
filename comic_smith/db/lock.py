@@ -7,15 +7,19 @@ from typing import IO
 
 from comic_smith.errors import ProjectLockedError
 
+# Windows locks a byte range, and a locked range cannot be read by other processes. Locking one
+# byte far past the pid text keeps the pid readable for the error detail on every platform.
+WINDOWS_LOCK_OFFSET = 1 << 20
+
 if sys.platform == "win32":  # pragma: no cover - exercised on the Windows CI runners
     import msvcrt
 
     def _lock(fh: IO[str]) -> None:
-        fh.seek(0)
+        fh.seek(WINDOWS_LOCK_OFFSET)
         msvcrt.locking(fh.fileno(), msvcrt.LK_NBLCK, 1)
 
     def _unlock(fh: IO[str]) -> None:
-        fh.seek(0)
+        fh.seek(WINDOWS_LOCK_OFFSET)
         msvcrt.locking(fh.fileno(), msvcrt.LK_UNLCK, 1)
 
 else:
@@ -53,11 +57,10 @@ class ProjectLock:
                 hint="Close the other window or command, or use the running Studio.",
                 detail=f"lock file {self.path} held by pid {holder}",
             ) from exc
-        if sys.platform != "win32":
-            fh.seek(0)
-            fh.truncate()
-            fh.write(str(os.getpid()))
-            fh.flush()
+        fh.seek(0)
+        fh.truncate()
+        fh.write(str(os.getpid()))
+        fh.flush()
         self._fh = fh
 
     @staticmethod
@@ -66,7 +69,7 @@ class ProjectLock:
         try:
             fh.seek(0)
             return fh.read().strip() or "unknown"
-        except OSError:  # pragma: no cover - Windows refuses reads of a locked range
+        except OSError:  # pragma: no cover - defensive; the pid range is never locked
             return "unknown"
 
     def release(self) -> None:
