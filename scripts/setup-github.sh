@@ -4,7 +4,14 @@
 set -euo pipefail
 REPO="${REPO:-mohnishbasha/mr-comic-smith}"
 
-create() { gh label create "$1" --repo "$REPO" --color "$2" --description "$3" --force >/dev/null; echo "label: $1"; }
+create() {
+  local i
+  for i in 1 2 3 4 5; do
+    gh label create "$1" --repo "$REPO" --color "$2" --description "$3" --force >/dev/null 2>&1 && { echo "label: $1"; return; }
+    sleep $((i * 5))
+  done
+  echo "label failed: $1" >&2; return 1
+}
 
 labels() {
   create "type: feature"      "1D76DB" "New user-facing capability"

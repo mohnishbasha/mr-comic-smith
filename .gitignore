@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+build/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+# TypeScript / Node / Bun
+node_modules/
+*.tsbuildinfo
+web/studio/dist/
+reader/dist/
+integrations/pi/dist/
+comic_smith/server/static/*
+!comic_smith/server/static/.gitkeep
+.bun/
+# Environment
+.env
+.env.*
+!.env.*.example
+# Test / coverage
+coverage/
+.coverage
+htmlcov/
+coverage.xml
+coverage.json
+playwright-report/
+test-results/
+tests/visual/__diff__/
+# Product runtime
+/projects/
+/exports/
+/library/
+.comic-smith/
+*.db
+*.db-shm
+*.db-wal
+!tests/fixtures/projects/**/project.db
+# Models and backends
+/models/
+ComfyUI/
+*.safetensors
+*.ckpt
+*.gguf
+# Agent sessions
+.pi/sessions/
+.agent/sessions/
+.claude/
+CLAUDE.local.md
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+# Lock files ARE tracked: uv.lock, bun.lockb, package-lock.json

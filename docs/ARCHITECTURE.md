@@ -583,6 +583,7 @@ CREATE TABLE event (
   payload_json TEXT NOT NULL CHECK (json_valid(payload_json)),
   inverse_json TEXT NULL CHECK (inverse_json IS NULL OR json_valid(inverse_json)),
   undone       INTEGER NOT NULL DEFAULT 0 CHECK (undone IN (0,1)),    -- added; redo/undo cursor
+  discarded    INTEGER NOT NULL DEFAULT 0 CHECK (discarded IN (0,1)),  -- added (Sprint 0); redo tail dropped by a newer mutation
   workspace_id TEXT NULL                                  -- added; classroom mode user attribution
 );
 CREATE INDEX ix_event_project_id ON event(project_id, id);
@@ -731,7 +732,7 @@ Event `type` strings are dotted names. `payload_json` holds the new state or a d
 | jobs | `job.enqueued`, `job.finished`, `job.failed`, `job.cancelled` |
 | auto | `auto.started`, `auto.pick`, `auto.stopped` |
 
-Undo and redo operate on the most recent event with a non-null `inverse_json` whose `undone` flag is 0 (undo) or 1 (redo), restricted to the actor's workspace in classroom mode. A new mutation after an undo discards the redo tail by marking those events non-redoable. Undo never deletes assets; it only changes references.
+Undo and redo operate on the most recent event with a non-null `inverse_json` whose `undone` flag is 0 (undo) or 1 (redo), restricted to the actor's workspace in classroom mode. A new undoable mutation after an undo discards the redo tail by setting `discarded = 1` on those events **(Sprint 0)**; non-undoable events such as `job.finished` leave the redo tail alone. Redo re-applies the oldest undone event (undo walks newest to oldest). Each undo and redo also appends a marker event, `event.undone` or `event.redone`, with payload `{event_id, via}` and no inverse **(Sprint 0)**. An `inverse_json` is `{"type": <event type>, "payload": {...}}`, an event of a known type applied through the same handler registry **(Sprint 0)**. Undo never deletes assets; it only changes references.
 
 ---
 

@@ -211,85 +211,85 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_docs_spec_files_all_five_present` | PRD, ARCHITECTURE, DESIGN, SPRINT_PLAN, TEST_PLAN exist under docs/ | Unit | `S0-T01` | ⚠️ Deferred |
-| `test_docs_required_sections_present_in_each_spec` | Each spec has every required section heading | Unit | `S0-T01` | ⚠️ Deferred |
-| `test_docs_every_fr_has_acceptance_criteria` | Every FR block in PRD.md carries an AC line | Unit | `S0-T01` | ⚠️ Deferred |
-| `test_docs_every_us_maps_to_at_least_one_fr` | Each US-nnn is referenced by at least one FR or task | Unit | `S0-T01` | ⚠️ Deferred |
-| `test_docs_no_em_or_en_dash_in_committed_files` | Scan of tracked text files finds no U+2014 or U+2013 | Unit | `S0-T01` | ⚠️ Deferred |
-| `test_cli_version_prints_pyproject_version` | `--version` output equals the pyproject version | Unit | `S0-T02` | ⚠️ Deferred |
-| `smoke_cli_version_exits_zero` | `mr-comic-smith --version` exits 0 | Smoke | `S0-T02` | ⚠️ Deferred |
-| `test_packaging_base_install_does_not_pull_torch` | Resolved base dependency set contains no torch | Unit | `S0-T02` | ⚠️ Deferred |
-| `test_packaging_optional_extras_declared` | All eight dependency groups are declared | Unit | `S0-T02` | ⚠️ Deferred |
-| `test_packaging_python_range_is_312_to_313` | requires-python is >=3.12,<3.14 | Unit | `S0-T02` | ⚠️ Deferred |
+| `test_docs_spec_files_all_five_present` | PRD, ARCHITECTURE, DESIGN, SPRINT_PLAN, TEST_PLAN exist under docs/ | Unit | `S0-T01` | ✅ Automated |
+| `test_docs_required_sections_present_in_each_spec` | Each spec has every required section heading | Unit | `S0-T01` | ✅ Automated |
+| `test_docs_every_fr_has_acceptance_criteria` | Every FR block in PRD.md carries an AC line | Unit | `S0-T01` | ✅ Automated |
+| `test_docs_every_us_maps_to_at_least_one_fr` | Each US-nnn is referenced by at least one FR or task | Unit | `S0-T01` | ✅ Automated |
+| `test_docs_no_em_or_en_dash_in_committed_files` | Scan of tracked text files finds no U+2014 or U+2013 | Unit | `S0-T01` | ✅ Automated |
+| `test_cli_version_prints_pyproject_version` | `--version` output equals the pyproject version | Unit | `S0-T02` | ✅ Automated |
+| `smoke_cli_version_exits_zero` | `mr-comic-smith --version` exits 0 | Smoke | `S0-T02` | ✅ Automated |
+| `test_packaging_base_install_does_not_pull_torch` | Resolved base dependency set contains no torch | Unit | `S0-T02` | ✅ Automated |
+| `test_packaging_optional_extras_declared` | All eight dependency groups are declared | Unit | `S0-T02` | ✅ Automated |
+| `test_packaging_python_range_is_312_to_313` | requires-python is >=3.12,<3.14 | Unit | `S0-T02` | ✅ Automated |
 | `it_packaging_uv_sync_all_extras_clean_env` | uv sync --all-extras --dev succeeds in a clean environment | Integration | `S0-T02` | ⚠️ Deferred |
-| `test_repo_gitignore_contains_required_groups` | Every required ignore pattern is present | Unit | `S0-T03` | ⚠️ Deferred |
-| `test_repo_gitignore_fixtures_not_ignored` | Fixture project.db is not ignored | Unit | `S0-T03` | ⚠️ Deferred |
-| `test_repo_gitignore_user_projects_ignored` | projects/ and *.db are ignored | Unit | `S0-T03` | ⚠️ Deferred |
-| `test_repo_gitattributes_lfs_patterns_declared` | LFS patterns for images, goldens, and fonts | Unit | `S0-T03` | ⚠️ Deferred |
-| `test_repo_license_names_serverless_ventures_2026` | LICENSE holder and year | Unit | `S0-T03` | ⚠️ Deferred |
-| `test_repo_hygiene_files_all_present` | All hygiene files exist at the repo root | Unit | `S0-T03` | ⚠️ Deferred |
-| `test_lint_ruff_rules_configured_as_specified` | pyproject ruff select list matches the specified rule set | Unit | `S0-T04` | ⚠️ Deferred |
-| `test_lint_mypy_strict_enabled` | mypy strict mode is on | Unit | `S0-T04` | ⚠️ Deferred |
-| `test_lint_em_dash_hook_rejects_u2014` | Hook exits non-zero on an em dash | Unit | `S0-T04` | ⚠️ Deferred |
-| `test_lint_en_dash_hook_rejects_u2013` | Hook exits non-zero on an en dash | Unit | `S0-T04` | ⚠️ Deferred |
-| `test_lint_makefile_targets_all_defined` | All twelve Makefile targets exist | Unit | `S0-T04` | ⚠️ Deferred |
+| `test_repo_gitignore_contains_required_groups` | Every required ignore pattern is present | Unit | `S0-T03` | ✅ Automated |
+| `test_repo_gitignore_fixtures_not_ignored` | Fixture project.db is not ignored | Unit | `S0-T03` | ✅ Automated |
+| `test_repo_gitignore_user_projects_ignored` | projects/ and *.db are ignored | Unit | `S0-T03` | ✅ Automated |
+| `test_repo_gitattributes_lfs_patterns_declared` | LFS patterns for images, goldens, and fonts | Unit | `S0-T03` | ✅ Automated |
+| `test_repo_license_names_serverless_ventures_2026` | LICENSE holder and year | Unit | `S0-T03` | ✅ Automated |
+| `test_repo_hygiene_files_all_present` | All hygiene files exist at the repo root | Unit | `S0-T03` | ✅ Automated |
+| `test_lint_ruff_rules_configured_as_specified` | pyproject ruff select list matches the specified rule set | Unit | `S0-T04` | ✅ Automated |
+| `test_lint_mypy_strict_enabled` | mypy strict mode is on | Unit | `S0-T04` | ✅ Automated |
+| `test_lint_em_dash_hook_rejects_u2014` | Hook exits non-zero on an em dash | Unit | `S0-T04` | ✅ Automated |
+| `test_lint_en_dash_hook_rejects_u2013` | Hook exits non-zero on an en dash | Unit | `S0-T04` | ✅ Automated |
+| `test_lint_makefile_targets_all_defined` | All twelve Makefile targets exist | Unit | `S0-T04` | ✅ Automated |
 | `smoke_make_lint_typecheck_exit_zero` | `make lint typecheck` is green on the skeleton | Smoke | `S0-T04` | ⚠️ Deferred |
-| `test_harness_coverage_script_fails_under_threshold` | check-coverage.py exits 1 when a module is below target | Unit | `S0-T05` | ⚠️ Deferred |
-| `test_harness_coverage_script_passes_at_threshold` | check-coverage.py exits 0 at exactly the target | Unit | `S0-T05` | ⚠️ Deferred |
-| `test_harness_thresholds_toml_matches_test_plan` | TOML in the repo equals the block in TEST_PLAN section 2 | Unit | `S0-T05` | ⚠️ Deferred |
-| `test_visual_compare_identical_images_pass` | Identical PNGs pass | Unit | `S0-T05` | ⚠️ Deferred |
-| `test_visual_compare_over_threshold_fails` | More than 0.1 percent differing pixels fails | Unit | `S0-T05` | ⚠️ Deferred |
-| `test_visual_compare_ssim_detects_shifted_glyph` | A one-pixel glyph shift is detected by SSIM | Unit | `S0-T05` | ⚠️ Deferred |
+| `test_harness_coverage_script_fails_under_threshold` | check-coverage.py exits 1 when a module is below target | Unit | `S0-T05` | ✅ Automated |
+| `test_harness_coverage_script_passes_at_threshold` | check-coverage.py exits 0 at exactly the target | Unit | `S0-T05` | ✅ Automated |
+| `test_harness_thresholds_toml_matches_test_plan` | TOML in the repo equals the block in TEST_PLAN section 2 | Unit | `S0-T05` | ✅ Automated |
+| `test_visual_compare_identical_images_pass` | Identical PNGs pass | Unit | `S0-T05` | ✅ Automated |
+| `test_visual_compare_over_threshold_fails` | More than 0.1 percent differing pixels fails | Unit | `S0-T05` | ✅ Automated |
+| `test_visual_compare_ssim_detects_shifted_glyph` | A one-pixel glyph shift is detected by SSIM | Unit | `S0-T05` | ✅ Automated |
 | `smoke_make_test_and_visual_run` | `make test` and `make visual` execute on the skeleton | Smoke | `S0-T05` | ⚠️ Deferred |
-| `test_ci_workflow_declares_all_required_jobs` | ci.yml lists every job from Appendix J | Unit | `S0-T09` | ⚠️ Deferred |
-| `test_ci_concurrency_cancels_superseded_runs` | concurrency group with cancel-in-progress is set | Unit | `S0-T09` | ⚠️ Deferred |
-| `test_ci_dependabot_covers_uv_npm_actions_docker` | dependabot.yml has all four ecosystems | Unit | `S0-T09` | ⚠️ Deferred |
-| `test_ci_gpu_integration_targets_self_hosted_gpu_label` | gpu-integration runs-on includes self-hosted and gpu | Unit | `S0-T09` | ⚠️ Deferred |
+| `test_ci_workflow_declares_all_required_jobs` | ci.yml lists every job from Appendix J | Unit | `S0-T09` | ✅ Automated |
+| `test_ci_concurrency_cancels_superseded_runs` | concurrency group with cancel-in-progress is set | Unit | `S0-T09` | ✅ Automated |
+| `test_ci_dependabot_covers_uv_npm_actions_docker` | dependabot.yml has all four ecosystems | Unit | `S0-T09` | ✅ Automated |
+| `test_ci_gpu_integration_targets_self_hosted_gpu_label` | gpu-integration runs-on includes self-hosted and gpu | Unit | `S0-T09` | ✅ Automated |
 | `smoke_ci_skeleton_all_jobs_green` | Every job passes on the skeleton commit | Smoke | `S0-T09` | ⚠️ Deferred |
-| `test_scripts_check_versions_mismatch_exits_one_naming_file` | Mismatch exits 1 with the offending file | Unit | `S0-T10` | ⚠️ Deferred |
-| `test_scripts_check_versions_match_exits_zero` | Aligned versions exit 0 | Unit | `S0-T10` | ⚠️ Deferred |
-| `test_scripts_bump_version_updates_all_files` | bump-version rewrites every versioned file | Unit | `S0-T10` | ⚠️ Deferred |
-| `test_scripts_extract_changelog_prints_only_requested_section` | Only the requested version section is printed | Unit | `S0-T10` | ⚠️ Deferred |
-| `test_scripts_extract_changelog_missing_section_fails` | Unknown version exits non-zero | Unit | `S0-T10` | ⚠️ Deferred |
-| `test_agent_files_all_present` | AGENTS.md, CLAUDE.md, SKILLS.md, SOUL.md exist | Unit | `S0-T11` | ⚠️ Deferred |
-| `test_agent_claude_md_starts_with_import_agents_md` | First line of CLAUDE.md is the import | Unit | `S0-T11` | ⚠️ Deferred |
-| `test_agent_soul_md_has_at_least_six_hard_constraints` | SOUL.md constraint count is 6 or more | Unit | `S0-T11` | ⚠️ Deferred |
-| `test_agent_soul_md_contains_no_commands_or_paths` | No code fences or filesystem paths in SOUL.md | Unit | `S0-T11` | ⚠️ Deferred |
-| `test_agent_skills_run_tests_check_types_make_fixture_comic_exist` | Three skill folders with SKILL.md | Unit | `S0-T11` | ⚠️ Deferred |
+| `test_scripts_check_versions_mismatch_exits_one_naming_file` | Mismatch exits 1 with the offending file | Unit | `S0-T10` | ✅ Automated |
+| `test_scripts_check_versions_match_exits_zero` | Aligned versions exit 0 | Unit | `S0-T10` | ✅ Automated |
+| `test_scripts_bump_version_updates_all_files` | bump-version rewrites every versioned file | Unit | `S0-T10` | ✅ Automated |
+| `test_scripts_extract_changelog_prints_only_requested_section` | Only the requested version section is printed | Unit | `S0-T10` | ✅ Automated |
+| `test_scripts_extract_changelog_missing_section_fails` | Unknown version exits non-zero | Unit | `S0-T10` | ✅ Automated |
+| `test_agent_files_all_present` | AGENTS.md, CLAUDE.md, SKILLS.md, SOUL.md exist | Unit | `S0-T11` | ✅ Automated |
+| `test_agent_claude_md_starts_with_import_agents_md` | First line of CLAUDE.md is the import | Unit | `S0-T11` | ✅ Automated |
+| `test_agent_soul_md_has_at_least_six_hard_constraints` | SOUL.md constraint count is 6 or more | Unit | `S0-T11` | ✅ Automated |
+| `test_agent_soul_md_contains_no_commands_or_paths` | No code fences or filesystem paths in SOUL.md | Unit | `S0-T11` | ✅ Automated |
+| `test_agent_skills_run_tests_check_types_make_fixture_comic_exist` | Three skill folders with SKILL.md | Unit | `S0-T11` | ✅ Automated |
 | `smoke_agent_skills_run_green` | Each skill script exits 0 | Smoke | `S0-T11` | ⚠️ Deferred |
-| `test_config_precedence_flags_over_env` | Flag beats env | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_config_precedence_env_over_file` | Env beats file | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_config_precedence_file_over_defaults` | File beats defaults | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_config_env_prefix_comic_smith` | Only COMIC_SMITH_ variables are read | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_doctor_check_registry_runs_all_checks` | Every registered check runs and reports | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_doctor_json_output_parses` | --json output is valid JSON with check ids | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_doctor_required_failure_exits_three` | Required failure exits 3 | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_doctor_missing_chromium_reports_fix_hint` | Missing Chromium prints the install command | Unit | `S0-T12` | ⚠️ Deferred |
-| `test_doctor_unwritable_data_dir_fails` | Unwritable data dir is a required failure | Unit | `S0-T12` | ⚠️ Deferred |
+| `test_config_precedence_flags_over_env` | Flag beats env | Unit | `S0-T12` | ✅ Automated |
+| `test_config_precedence_env_over_file` | Env beats file | Unit | `S0-T12` | ✅ Automated |
+| `test_config_precedence_file_over_defaults` | File beats defaults | Unit | `S0-T12` | ✅ Automated |
+| `test_config_env_prefix_comic_smith` | Only COMIC_SMITH_ variables are read | Unit | `S0-T12` | ✅ Automated |
+| `test_doctor_check_registry_runs_all_checks` | Every registered check runs and reports | Unit | `S0-T12` | ✅ Automated |
+| `test_doctor_json_output_parses` | --json output is valid JSON with check ids | Unit | `S0-T12` | ✅ Automated |
+| `test_doctor_required_failure_exits_three` | Required failure exits 3 | Unit | `S0-T12` | ✅ Automated |
+| `test_doctor_missing_chromium_reports_fix_hint` | Missing Chromium prints the install command | Unit | `S0-T12` | ✅ Automated |
+| `test_doctor_unwritable_data_dir_fails` | Unwritable data dir is a required failure | Unit | `S0-T12` | ✅ Automated |
 
 ### 5.2 Database and assets (PRD FR-001, NFR-006)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `it_db_migrations_up_and_down_roundtrip` | Upgrade to head then downgrade to base succeeds | Integration | `S0-T06` | ⚠️ Deferred |
-| `it_db_project_open_creates_new_project` | Project.open on an empty folder creates project.db and assets/ | Integration | `S0-T06` | ⚠️ Deferred |
-| `it_db_project_open_migrates_old_schema` | Project.open on an older schema migrates it | Integration | `S0-T06` | ⚠️ Deferred |
-| `it_db_wal_concurrent_reader_during_write` | A reader gets a consistent snapshot while a writer commits | Integration | `S0-T06` | ⚠️ Deferred |
-| `it_db_foreign_keys_enforced` | Orphan insert raises an integrity error | Integration | `S0-T06` | ⚠️ Deferred |
-| `test_assets_store_write_atomic_temp_then_rename` | Write goes through a temp file then rename | Unit | `S0-T06` | ⚠️ Deferred |
-| `test_assets_store_write_idempotent_same_sha` | Writing the same bytes twice stores one object | Unit | `S0-T06` | ⚠️ Deferred |
-| `test_assets_store_crash_mid_write_leaves_no_partial_file` | Simulated crash leaves no partial object | Unit | `S0-T06` | ⚠️ Deferred |
+| `it_db_migrations_up_and_down_roundtrip` | Upgrade to head then downgrade to base succeeds | Integration | `S0-T06` | ✅ Automated |
+| `it_db_project_open_creates_new_project` | Project.open on an empty folder creates project.db and assets/ | Integration | `S0-T06` | ✅ Automated |
+| `it_db_project_open_migrates_old_schema` | Project.open on an older schema migrates it | Integration | `S0-T06` | ✅ Automated |
+| `it_db_wal_concurrent_reader_during_write` | A reader gets a consistent snapshot while a writer commits | Integration | `S0-T06` | ✅ Automated |
+| `it_db_foreign_keys_enforced` | Orphan insert raises an integrity error | Integration | `S0-T06` | ✅ Automated |
+| `test_assets_store_write_atomic_temp_then_rename` | Write goes through a temp file then rename | Unit | `S0-T06` | ✅ Automated |
+| `test_assets_store_write_idempotent_same_sha` | Writing the same bytes twice stores one object | Unit | `S0-T06` | ✅ Automated |
+| `test_assets_store_crash_mid_write_leaves_no_partial_file` | Simulated crash leaves no partial object | Unit | `S0-T06` | ✅ Automated |
 
 ### 5.3 Events and undo (PRD FR-033, US-021)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_events_apply_records_actor_and_inverse` | Applied event stores actor and inverse payload | Unit | `S0-T07` | ⚠️ Deferred |
-| `test_events_undo_redo_roundtrip_lettering_edit` | Undo then redo of a lettering edit restores state | Unit | `S0-T07` | ⚠️ Deferred |
-| `test_events_property_random_apply_undo_redo_restores_state` | Hypothesis: random sequences return to identical state | Unit | `S0-T07` | ⚠️ Deferred |
-| `test_events_redo_cleared_after_new_apply` | A new apply after undo drops the redo stack | Unit | `S0-T07` | ⚠️ Deferred |
-| `test_events_history_survives_restart` | Reopened project replays the same history | Unit | `S0-T07` | ⚠️ Deferred |
-| `test_events_service_mutations_all_go_through_apply` | Import-linter or grep rule: no direct writes outside events | Unit | `S0-T07` | ⚠️ Deferred |
+| `test_events_apply_records_actor_and_inverse` | Applied event stores actor and inverse payload | Unit | `S0-T07` | ✅ Automated |
+| `test_events_undo_redo_roundtrip_lettering_edit` | Undo then redo of a lettering edit restores state | Unit | `S0-T07` | ✅ Automated |
+| `test_events_property_random_apply_undo_redo_restores_state` | Hypothesis: random sequences return to identical state | Unit | `S0-T07` | ✅ Automated |
+| `test_events_redo_cleared_after_new_apply` | A new apply after undo drops the redo stack | Unit | `S0-T07` | ✅ Automated |
+| `test_events_history_survives_restart` | Reopened project replays the same history | Unit | `S0-T07` | ✅ Automated |
+| `test_events_service_mutations_all_go_through_apply` | Import-linter or grep rule: no direct writes outside events | Unit | `S0-T07` | ✅ Automated |
 
 ### 5.4 LLM providers (PRD FR-013, ADR-012)
 
@@ -706,11 +706,11 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 |---|---|---|---|---|
 | `smoke_studio_shell_loads_in_chromium` | Playwright opens / and sees the header and tabs | Smoke | `S0-T08` | ⚠️ Deferred |
 | `e2e_US002_empty_home_prompts_for_story_idea` | Empty Home shows 'Start with a story idea, a photo, or both.' | E2E | `S0-T08` | ⚠️ Deferred |
-| `test_server_healthz_returns_ok` | GET /v1/healthz returns 200 | Unit | `S0-T08` | ⚠️ Deferred |
-| `it_server_serves_built_studio_at_root` | GET / returns the built index.html | Integration | `S0-T08` | ⚠️ Deferred |
-| `test_studio_tokens_light_and_dark_css_variables_defined` | Both themes define every token (vitest) | Unit | `S0-T08` | ⚠️ Deferred |
-| `test_cli_studio_binds_loopback_by_default` | `studio` binds 127.0.0.1 unless --host is given | Unit | `S0-T08` | ⚠️ Deferred |
-| `test_studio_theme_toggle_persists_in_try_catch_storage` | Theme choice persists and survives storage errors (vitest) | Unit | `S0-T08` | ⚠️ Deferred |
+| `test_server_healthz_returns_ok` | GET /v1/healthz returns 200 | Unit | `S0-T08` | ✅ Automated |
+| `it_server_serves_built_studio_at_root` | GET / returns the built index.html | Integration | `S0-T08` | ✅ Automated |
+| `test_studio_tokens_light_and_dark_css_variables_defined` | Both themes define every token (vitest) | Unit | `S0-T08` | ✅ Automated |
+| `test_cli_studio_binds_loopback_by_default` | `studio` binds 127.0.0.1 unless --host is given | Unit | `S0-T08` | ✅ Automated |
+| `test_studio_theme_toggle_persists_in_try_catch_storage` | Theme choice persists and survives storage errors (vitest) | Unit | `S0-T08` | ✅ Automated |
 | `e2e_US001_create_duck_project_and_approve_character_with_mocks` | Duck flow | E2E | `S3-T10` | ⚠️ Deferred |
 | `e2e_US001_person_photo_requires_attestation_before_sheet` | Attestation UI gate | E2E | `S3-T10` | ⚠️ Deferred |
 | `e2e_US003_start_from_narrative_only` | Narrative only | E2E | `S3-T10` | ⚠️ Deferred |
@@ -1113,6 +1113,76 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
+| `e2e_US002_empty_home_prompts_for_story_idea` | US002 empty home prompts for story idea | E2E | none | ✅ Automated |
+| `e2e_studio_client_route_and_theme_toggle` | studio client route and theme toggle | E2E | none | ✅ Automated |
+| `it_db_failed_migration_restores_backup_and_unlocks` | db failed migration restores backup and unlocks | Integration | none | ✅ Automated |
+| `it_db_lock_held_by_other_process` | db lock held by other process | Integration | none | ✅ Automated |
+| `smoke_doctor_json_parses` | doctor json parses | Smoke | none | ✅ Automated |
+| `test_assets_store_clean_tmp_removes_killed_write_leftovers` | assets store clean tmp removes killed write leftovers | Unit | none | ✅ Automated |
+| `test_assets_store_gc_grace_period_protects_new_assets` | assets store gc grace period protects new assets | Unit | none | ✅ Automated |
+| `test_assets_store_gc_removes_only_unreferenced` | assets store gc removes only unreferenced | Unit | none | ✅ Automated |
+| `test_assets_store_gc_removes_orphan_file_without_row` | assets store gc removes orphan file without row | Unit | none | ✅ Automated |
+| `test_assets_store_put_repairs_missing_row_and_joins_session` | assets store put repairs missing row and joins session | Unit | none | ✅ Automated |
+| `test_assets_store_put_returns_ref_and_layout` | assets store put returns ref and layout | Unit | none | ✅ Automated |
+| `test_assets_store_rejects_bad_ext_and_bad_sha` | assets store rejects bad ext and bad sha | Unit | none | ✅ Automated |
+| `test_assets_store_same_bytes_other_ext_reuses_file` | assets store same bytes other ext reuses file | Unit | none | ✅ Automated |
+| `test_cli_config_error_maps_to_exit_two` | cli config error maps to exit two | Unit | none | ✅ Automated |
+| `test_cli_doctor_fix_flag_calls_fix` | cli doctor fix flag calls fix | Unit | none | ✅ Automated |
+| `test_cli_no_args_shows_help` | cli no args shows help | Unit | none | ✅ Automated |
+| `test_cli_studio_passes_port_to_api` | cli studio passes port to api | Unit | none | ✅ Automated |
+| `test_config_bad_toml_raises` | config bad toml raises | Unit | none | ✅ Automated |
+| `test_config_derived_dirs_under_data_dir` | config derived dirs under data dir | Unit | none | ✅ Automated |
+| `test_config_explicit_missing_path_raises` | config explicit missing path raises | Unit | none | ✅ Automated |
+| `test_config_invalid_value_raises_config_error` | config invalid value raises config error | Unit | none | ✅ Automated |
+| `test_config_ollama_host_conventional_name` | config ollama host conventional name | Unit | none | ✅ Automated |
+| `test_config_redacted_masks_secrets` | config redacted masks secrets | Unit | none | ✅ Automated |
+| `test_config_secret_key_in_file_rejected` | config secret key in file rejected | Unit | none | ✅ Automated |
+| `test_config_unknown_key_warns` | config unknown key warns | Unit | none | ✅ Automated |
+| `test_config_user_config_dir_is_searched` | config user config dir is searched | Unit | none | ✅ Automated |
+| `test_db_check_constraints_reject_bad_rows` | db check constraints reject bad rows | Unit | none | ✅ Automated |
+| `test_db_models_cover_every_architecture_table` | db models cover every architecture table | Unit | none | ✅ Automated |
+| `test_db_models_match_migrated_schema` | db models match migrated schema | Unit | none | ✅ Automated |
+| `test_db_one_active_branch_per_project` | db one active branch per project | Unit | none | ✅ Automated |
+| `test_db_open_existing_empty_file_migrates_without_backup` | db open existing empty file migrates without backup | Unit | none | ✅ Automated |
+| `test_db_pragmas_applied_on_every_connection` | db pragmas applied on every connection | Unit | none | ✅ Automated |
+| `test_db_project_lock_blocks_second_open_until_close` | db project lock blocks second open until close | Unit | none | ✅ Automated |
+| `test_db_project_open_failure_releases_lock` | db project open failure releases lock | Unit | none | ✅ Automated |
+| `test_db_project_open_missing_raises_not_found` | db project open missing raises not found | Unit | none | ✅ Automated |
+| `test_db_readonly_session_rejects_writes` | db readonly session rejects writes | Unit | none | ✅ Automated |
+| `test_db_reopen_does_not_back_up_when_current` | db reopen does not back up when current | Unit | none | ✅ Automated |
+| `test_db_session_rolls_back_on_error` | db session rolls back on error | Unit | none | ✅ Automated |
+| `test_doctor_chromium_present_ok` | doctor chromium present ok | Unit | none | ✅ Automated |
+| `test_doctor_crashing_check_is_reported_not_raised` | doctor crashing check is reported not raised | Unit | none | ✅ Automated |
+| `test_doctor_fix_runs_playwright_install` | doctor fix runs playwright install | Unit | none | ✅ Automated |
+| `test_doctor_fonts_missing_is_warning` | doctor fonts missing is warning | Unit | none | ✅ Automated |
+| `test_doctor_fonts_present_ok` | doctor fonts present ok | Unit | none | ✅ Automated |
+| `test_doctor_optional_failure_still_exits_zero` | doctor optional failure still exits zero | Unit | none | ✅ Automated |
+| `test_doctor_python_and_disk_checks_pass` | doctor python and disk checks pass | Unit | none | ✅ Automated |
+| `test_doctor_table_output_lists_checks` | doctor table output lists checks | Unit | none | ✅ Automated |
+| `test_events_actor_accepts_strings_and_rejects_unknown` | events actor accepts strings and rejects unknown | Unit | none | ✅ Automated |
+| `test_events_non_undoable_event_does_not_clear_redo_or_enter_undo_stack` | events non undoable event does not clear redo or enter undo stack | Unit | none | ✅ Automated |
+| `test_events_projects_have_separate_stacks` | events projects have separate stacks | Unit | none | ✅ Automated |
+| `test_events_unknown_type_and_failing_handler_record_nothing` | events unknown type and failing handler record nothing | Unit | none | ✅ Automated |
+| `test_events_workspace_scopes_undo_and_redo` | events workspace scopes undo and redo | Unit | none | ✅ Automated |
+| `test_events_write_scanner_detects_direct_session_writes` | events write scanner detects direct session writes | Unit | none | ✅ Automated |
+| `test_server_comic_smith_error_renders_problem_json` | server comic smith error renders problem json | Unit | none | ✅ Automated |
+| `test_server_csp_matches_architecture_11_3` | server csp matches architecture 11 3 | Unit | none | ✅ Automated |
+| `test_server_default_static_dir_still_answers` | server default static dir still answers | Unit | none | ✅ Automated |
+| `test_server_missing_asset_is_404_not_index` | server missing asset is 404 not index | Unit | none | ✅ Automated |
+| `test_server_placeholder_page_when_studio_not_built` | server placeholder page when studio not built | Unit | none | ✅ Automated |
+| `test_server_readyz_returns_ok` | server readyz returns ok | Unit | none | ✅ Automated |
+| `test_server_run_allows_non_localhost_with_credential` | server run allows non localhost with credential | Unit | none | ✅ Automated |
+| `test_server_run_binds_given_loopback_host` | server run binds given loopback host | Unit | none | ✅ Automated |
+| `test_server_run_empty_secret_does_not_count` | server run empty secret does not count | Unit | none | ✅ Automated |
+| `test_server_run_opens_browser_when_requested` | server run opens browser when requested | Unit | none | ✅ Automated |
+| `test_server_run_refuses_non_localhost_without_token` | server run refuses non localhost without token | Unit | none | ✅ Automated |
+| `test_server_security_headers_on_every_response` | server security headers on every response | Unit | none | ✅ Automated |
+| `test_server_serves_static_assets` | server serves static assets | Unit | none | ✅ Automated |
+| `test_server_spa_fallback_does_not_apply_to_api` | server spa fallback does not apply to api | Unit | none | ✅ Automated |
+| `test_server_spa_fallback_serves_index_for_client_routes` | server spa fallback serves index for client routes | Unit | none | ✅ Automated |
+| `test_server_static_path_traversal_is_not_served` | server static path traversal is not served | Unit | none | ✅ Automated |
+| `test_server_wait_for_port_times_out_on_closed_port` | server wait for port times out on closed port | Unit | none | ✅ Automated |
+| `test_visual_compare_size_mismatch_fails` | visual compare size mismatch fails | Unit | none | ✅ Automated |
 
 ---
 

@@ -1,0 +1,19 @@
+# mr-comic-smith configuration. Precedence: flags > COMIC_SMITH_* environment > this file > defaults.
+# Secrets (API keys, tokens, access codes) are never read from this file; use the environment.
+env = "prod"
+data_dir = "~/ComicSmith"
+log_level = "info"
+log_format = "pretty"
+image_backend = "comfyui"          # mock | comfyui | gemini | openai
+comfyui_url = "http://127.0.0.1:8188"
+comfyui_workflow = "qwen-image-edit"
+allow_noncommercial = false        # gates the flux-kontext-dev workflow
+llm = "ollama:qwen3:14b"           # ollama:<model> | anthropic:<model> | openai_compat:<url>#<model> | fake
+vision = "ollama:qwen2.5vl:7b"
+embeddings = "ollama:nomic-embed-text"
+qa_min_score = 4
+qa_max_retakes = 2
+studio_port = 7351
+server_host = "127.0.0.1"
+server_port = 7350
+default_audience = "all-ages"      # all-ages | kids-5-8 | kids-9-12 | teen | adult
