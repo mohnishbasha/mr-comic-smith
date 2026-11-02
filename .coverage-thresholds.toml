@@ -1,0 +1,25 @@
+# Per-module coverage floors. scripts/check-coverage.py fails CI when a module is under target.
+# Paths that do not exist yet are skipped until the sprint that creates them.
+[python]
+"comic_smith/story" = 90
+"comic_smith/cast" = 85
+"comic_smith/panels" = 85
+"comic_smith/letter" = 92
+"comic_smith/layout" = 90
+"comic_smith/book" = 85
+"comic_smith/export" = 85
+"comic_smith/backends" = 80
+"comic_smith/jobs" = 85
+"comic_smith/events.py" = 95
+"comic_smith/assets" = 90
+"comic_smith/server" = 80
+"comic_smith/mcp_server" = 80
+"comic_smith/cli.py" = 75
+overall = 85
+
+[typescript]
+"web/studio/src/stores" = 85
+"web/studio/src/lettering" = 85
+"web/studio/src/components" = 75
+"reader/src" = 85
+"integrations/pi/src" = 70

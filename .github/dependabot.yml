@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: uv
+    directory: /
+    schedule: {interval: weekly}
+    target-branch: develop
+  - package-ecosystem: npm
+    directories: [/web/studio, /reader, /integrations/pi, /tests/e2e]
+    schedule: {interval: weekly}
+    target-branch: develop
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly}
+    target-branch: develop
+  - package-ecosystem: docker
+    directory: /deploy/docker
+    schedule: {interval: weekly}
+    target-branch: develop

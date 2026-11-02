@@ -1,0 +1,82 @@
+/* Design tokens (DESIGN.md section 5). Lettering colors never follow the UI theme. */
+:root {
+  /* Surfaces: warm paper */
+  --cs-bg: #fbf8f3;
+  --cs-surface: #ffffff;
+  --cs-surface-2: #f3eee6;
+  --cs-border: #e2d9cc;
+  --cs-canvas: #ede7dd; /* behind pages and strips */
+
+  /* Text: ink */
+  --cs-text: #1f1b16;
+  --cs-text-muted: #6b6158;
+  --cs-text-inverse: #ffffff;
+
+  /* Accent: comic primary trio, used sparingly */
+  --cs-accent: #2f5bea; /* primary actions */
+  --cs-accent-hover: #2448c4;
+  --cs-on-accent: #ffffff;
+  --cs-pop-red: #e5484d; /* destructive */
+  --cs-pop-yellow: #f5c542; /* highlights, child mode */
+
+  /* Lettering defaults: not redefined in the dark blocks */
+  --cs-balloon-fill: #ffffff;
+  --cs-balloon-ink: #111111;
+  --cs-caption: #fff4c2;
+
+  /* Status */
+  --cs-ok: #2e8b57;
+  --cs-warn: #c77d12;
+  --cs-error: #b3261e;
+  --cs-focus: #1f6feb;
+
+  /* Spacing: 4 px base */
+  --cs-space-1: 4px;
+  --cs-space-2: 8px;
+  --cs-space-3: 12px;
+  --cs-space-4: 16px;
+  --cs-space-5: 24px;
+  --cs-space-6: 32px;
+  --cs-space-7: 48px;
+  --cs-space-8: 64px;
+
+  /* Radius */
+  --cs-radius-card: 10px;
+  --cs-radius-input: 6px;
+  --cs-radius-full: 9999px;
+
+  /* Typography: Inter is bundled later; a system stack is used until then */
+  --cs-font-ui:
+    Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Targets */
+  --cs-target-min: 32px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cs-bg: #15130f;
+    --cs-surface: #1e1b16;
+    --cs-surface-2: #27231d;
+    --cs-border: #3a342b;
+    --cs-canvas: #0f0d0a;
+    --cs-text: #f2ece3;
+    --cs-text-muted: #b5aa9c;
+    --cs-accent: #6f8dff;
+    --cs-accent-hover: #8aa2ff;
+    --cs-on-accent: #15130f;
+  }
+}
+
+:root[data-theme="dark"] {
+  --cs-bg: #15130f;
+  --cs-surface: #1e1b16;
+  --cs-surface-2: #27231d;
+  --cs-border: #3a342b;
+  --cs-canvas: #0f0d0a;
+  --cs-text: #f2ece3;
+  --cs-text-muted: #b5aa9c;
+  --cs-accent: #6f8dff;
+  --cs-accent-hover: #8aa2ff;
+  --cs-on-accent: #15130f;
+}
