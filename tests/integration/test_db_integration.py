@@ -167,23 +167,30 @@ def it_db_foreign_keys_enforced(tmp_path: Path) -> None:
 
 def it_db_lock_held_by_other_process(tmp_path: Path) -> None:
     path = tmp_path / "p"
+    # The child reports its own pid (on Windows the venv launcher pid differs from the interpreter's)
+    # and exits when stdin closes, so no orphan keeps holding the lock.
     code = (
-        "import sys, time\n"
+        "import os, sys\n"
         "from pathlib import Path\n"
         "from comic_smith.db.session import Project\n"
         "p = Project.open(Path(sys.argv[1]), create=True)\n"
-        "print('ready', flush=True)\n"
-        "time.sleep(60)\n"
+        "print('ready', os.getpid(), flush=True)\n"
+        "sys.stdin.read()\n"
+        "p.close()\n"
     )
-    child = subprocess.Popen([sys.executable, "-c", code, str(path)], stdout=subprocess.PIPE, text=True)
+    child = subprocess.Popen(
+        [sys.executable, "-c", code, str(path)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
+    )
     try:
         assert child.stdout is not None
-        assert child.stdout.readline().strip() == "ready"
+        assert child.stdin is not None
+        word, pid = child.stdout.readline().split()
+        assert word == "ready"
         with pytest.raises(ProjectLockedError) as err:
             Project.open(path)
-        assert str(child.pid) in (err.value.detail or "")
-        child.kill()
-        child.wait(10)
+        assert pid in (err.value.detail or "")
+        child.stdin.close()
+        child.wait(30)
         Project.open(path).close()
     finally:
         child.kill()
