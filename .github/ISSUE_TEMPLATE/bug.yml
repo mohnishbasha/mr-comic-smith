@@ -1,0 +1,24 @@
+name: Bug report
+description: Something is broken
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: what
+    attributes: {label: What happened}
+    validations: {required: true}
+  - type: textarea
+    id: repro
+    attributes: {label: Steps to reproduce (project, strip/panel, backend, style)}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Expected}
+  - type: textarea
+    id: screenshots
+    attributes: {label: Screenshots or exported files}
+  - type: textarea
+    id: doctor
+    attributes: {label: Output of `mr-comic-smith doctor --json`, render: json}
+  - type: input
+    id: version
+    attributes: {label: Version (`mr-comic-smith --version`)}

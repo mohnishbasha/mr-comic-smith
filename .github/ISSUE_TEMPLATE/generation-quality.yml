@@ -1,0 +1,30 @@
+name: Generation quality
+description: The model drew or wrote the wrong thing (character drift, text in art, odd plot)
+labels: ["area: qa"]
+body:
+  - type: textarea
+    id: what
+    attributes: {label: What looks wrong}
+    validations: {required: true}
+  - type: textarea
+    id: panel_spec
+    attributes: {label: Panel Spec JSON, render: json}
+  - type: textarea
+    id: compiled_prompt
+    attributes: {label: Compiled prompt (Panel inspector, "View prompt"), render: json}
+  - type: input
+    id: backend
+    attributes: {label: Backend and model, placeholder: "comfyui / qwen-image-edit"}
+    validations: {required: true}
+  - type: input
+    id: seed
+    attributes: {label: Seed}
+  - type: input
+    id: style
+    attributes: {label: Style preset, placeholder: picture-book-watercolor}
+  - type: textarea
+    id: takes
+    attributes: {label: Take images (attach), description: "Never attach images of real people."}
+  - type: input
+    id: version
+    attributes: {label: Version (`mr-comic-smith --version`)}
