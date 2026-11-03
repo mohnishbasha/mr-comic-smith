@@ -9,6 +9,7 @@ Why folders keep their slug on rename: the folder is the lock and WAL home of an
 other processes may hold paths to it, so a rename changes the display name only.
 """
 
+import contextlib
 import json
 import logging
 import shutil
@@ -225,7 +226,8 @@ def _create_on_disk(path: Path, payload: JsonObject) -> ProjectInfo:
 def _read_rows(db_file: Path) -> list[dict[str, Any]]:
     """Read project rows without taking the project lock or migrating (read-only sqlite)."""
     uri = f"file:{db_file}?mode=ro"
-    with sqlite3.connect(uri, uri=True) as conn:
+    # sqlite3's own context manager only commits; an unclosed handle blocks moving the folder on Windows.
+    with contextlib.closing(sqlite3.connect(uri, uri=True)) as conn:
         conn.row_factory = sqlite3.Row
         return [dict(r) for r in conn.execute("SELECT * FROM project")]
 

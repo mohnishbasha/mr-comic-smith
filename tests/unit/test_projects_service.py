@@ -1,5 +1,8 @@
 """Project service: create, resolve, list, rename (undo), archive, delete to trash (FR-001)."""
 
+import sqlite3
+from typing import Any
+
 import pytest
 
 from comic_smith.config import Settings
@@ -139,6 +142,27 @@ def test_projects_update_metadata_merges_and_undoes(settings: Settings) -> None:
             meta = s.get(ProjectRow, info.id).metadata_json  # type: ignore[union-attr]
             assert meta["narrative"] == "seed"
             assert "extra" not in meta
+
+
+def test_projects_scan_closes_its_read_only_connections(
+    settings: Settings, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # An open handle blocks moving the project folder on Windows, so every scan must close.
+    create_project(settings, "Scanned")
+    opened: list[sqlite3.Connection] = []
+    real_connect = sqlite3.connect
+
+    def tracking_connect(*args: Any, **kwargs: Any) -> sqlite3.Connection:
+        conn = real_connect(*args, **kwargs)
+        opened.append(conn)
+        return conn
+
+    monkeypatch.setattr(sqlite3, "connect", tracking_connect)
+    assert len(list_projects(settings)) == 1
+    assert opened
+    for conn in opened:
+        with pytest.raises(sqlite3.ProgrammingError):
+            conn.execute("SELECT 1")
 
 
 def test_projects_delete_moves_to_trash(settings: Settings) -> None:
