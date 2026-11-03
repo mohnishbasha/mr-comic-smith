@@ -8,6 +8,27 @@ updates:
     directories: [/web/studio, /reader, /integrations/pi, /tests/e2e]
     schedule: {interval: weekly}
     target-branch: develop
+    ignore:
+      # Majors that need a coordinated, spec-reviewed upgrade (React 18 is pinned by the spec;
+      # typescript-eslint lags new TypeScript majors; eslint, vitest, and Node types move together).
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/react*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "vitest"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule: {interval: weekly}
