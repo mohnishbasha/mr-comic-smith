@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "ContinuityIssue": {
+      "additionalProperties": false,
+      "description": "One problem found by the finalize check.",
+      "properties": {
+        "character_id": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Character Id"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/IssueKind"
+        },
+        "panel_idx": {
+          "anyOf": [
+            {
+              "maximum": 6,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Panel Idx"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "strip": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strip"
+        },
+        "text": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "thread_id": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Thread Id"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "severity",
+        "text"
+      ],
+      "title": "ContinuityIssue",
+      "type": "object"
+    },
+    "IssueKind": {
+      "description": "Continuity issue categories (FR-022).",
+      "enum": [
+        "unresolved_thread",
+        "vanished_character",
+        "inconsistent_prop",
+        "tone_break"
+      ],
+      "title": "IssueKind",
+      "type": "string"
+    },
+    "Severity": {
+      "description": "How loudly a continuity issue is shown.",
+      "enum": [
+        "info",
+        "warn",
+        "error"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/continuity.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/continuity@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "blurb": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Blurb",
+      "type": "string"
+    },
+    "checked_at": {
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ContinuityIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "schema": {
+      "const": "comic-smith/continuity@1",
+      "default": "comic-smith/continuity@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "story_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Story Id",
+      "type": "string"
+    },
+    "titles": {
+      "items": {
+        "maxLength": 80,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Titles",
+      "type": "array"
+    }
+  },
+  "required": [
+    "story_id",
+    "checked_at",
+    "issues",
+    "titles",
+    "blurb"
+  ],
+  "title": "ContinuityReport",
+  "type": "object"
+}

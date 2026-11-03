@@ -1,0 +1,17 @@
+{
+  "schema": "comic-smith/suggestions@1",
+  "after_strip": 3,
+  "arc_progress": 0.42,
+  "options": [
+    {"intent": "continue", "beat": "Puddle builds a raft from a soap dish",
+     "description": "Puddle refuses to swim but has an idea. The raft wobbles.",
+     "arc_stage": "try-1", "characters": ["ch_puddle"], "thumbnail_prompt": "a yellow duck on a soap dish raft"},
+    {"intent": "twist", "beat": "The bathtub plug is pulled",
+     "description": "A whirlpool forms. Sub is pulled toward the drain.",
+     "arc_stage": "problem", "characters": ["ch_puddle", "ch_sub"], "thumbnail_prompt": "a whirlpool over the drain"},
+    {"intent": "steer", "beat": "Grandma Sponge teaches Puddle to float",
+     "description": "An old sponge shows Puddle that ducks are made to float.",
+     "arc_stage": "try-2", "characters": ["ch_puddle", "ch_sponge"], "thumbnail_prompt": "an old sponge beside a duck"}
+  ],
+  "end_here": null
+}

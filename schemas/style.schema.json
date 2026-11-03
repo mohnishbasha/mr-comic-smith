@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "Audience": {
+      "description": "Who the story is for; drives moderation and lettering limits (FR-013).",
+      "enum": [
+        "all-ages",
+        "kids-5-8",
+        "kids-9-12",
+        "teen",
+        "adult"
+      ],
+      "title": "Audience",
+      "type": "string"
+    },
+    "LetterCase": {
+      "description": "Lettering case of a style preset.",
+      "enum": [
+        "upper",
+        "mixed"
+      ],
+      "title": "LetterCase",
+      "type": "string"
+    },
+    "LineWeight": {
+      "description": "Outline weight of a style preset.",
+      "enum": [
+        "thin",
+        "medium",
+        "bold",
+        "none"
+      ],
+      "title": "LineWeight",
+      "type": "string"
+    },
+    "StyleLettering": {
+      "additionalProperties": false,
+      "description": "Lettering defaults of a style: case and font registry ids.",
+      "properties": {
+        "caption_font": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Caption Font",
+          "type": "string"
+        },
+        "case": {
+          "$ref": "#/$defs/LetterCase"
+        },
+        "font": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Font",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case",
+        "font",
+        "caption_font"
+      ],
+      "title": "StyleLettering",
+      "type": "object"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/style.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/style@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "audiences": {
+      "items": {
+        "$ref": "#/$defs/Audience"
+      },
+      "title": "Audiences",
+      "type": "array"
+    },
+    "backend_params": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Backend Params",
+      "type": "object"
+    },
+    "description": {
+      "default": "",
+      "maxLength": 200,
+      "title": "Description",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "pattern": "^st_",
+      "title": "Id",
+      "type": "string"
+    },
+    "lettering": {
+      "$ref": "#/$defs/StyleLettering"
+    },
+    "line_weight": {
+      "$ref": "#/$defs/LineWeight"
+    },
+    "name": {
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "negative_tokens": {
+      "items": {
+        "maxLength": 60,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Negative Tokens",
+      "type": "array"
+    },
+    "palette_hints": {
+      "items": {
+        "pattern": "^#[0-9A-Fa-f]{6}$",
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Palette Hints",
+      "type": "array"
+    },
+    "photoreal": {
+      "title": "Photoreal",
+      "type": "boolean"
+    },
+    "positive_tokens": {
+      "items": {
+        "maxLength": 60,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Positive Tokens",
+      "type": "array"
+    },
+    "reference_assets": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 2,
+      "title": "Reference Assets",
+      "type": "array"
+    },
+    "schema": {
+      "const": "comic-smith/style@1",
+      "default": "comic-smith/style@1",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "positive_tokens",
+    "negative_tokens",
+    "line_weight",
+    "photoreal",
+    "lettering"
+  ],
+  "title": "StylePreset",
+  "type": "object"
+}

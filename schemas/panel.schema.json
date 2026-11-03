@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "Angle": {
+      "description": "Camera angle.",
+      "enum": [
+        "eye-level",
+        "high",
+        "low",
+        "birds-eye",
+        "dutch"
+      ],
+      "title": "Angle",
+      "type": "string"
+    },
+    "BalloonSpace": {
+      "description": "Where the image should leave room for balloons.",
+      "enum": [
+        "top",
+        "bottom",
+        "left",
+        "right",
+        "none"
+      ],
+      "title": "BalloonSpace",
+      "type": "string"
+    },
+    "Dialogue": {
+      "additionalProperties": false,
+      "description": "One balloon of text spoken by a cast member.",
+      "properties": {
+        "speaker": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Speaker",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DialogueType"
+        }
+      },
+      "required": [
+        "speaker",
+        "type",
+        "text"
+      ],
+      "title": "Dialogue",
+      "type": "object"
+    },
+    "DialogueType": {
+      "description": "Balloon kinds.",
+      "enum": [
+        "speech",
+        "thought",
+        "shout",
+        "whisper"
+      ],
+      "title": "DialogueType",
+      "type": "string"
+    },
+    "Facing": {
+      "description": "Which way a character looks.",
+      "enum": [
+        "left",
+        "right",
+        "camera"
+      ],
+      "title": "Facing",
+      "type": "string"
+    },
+    "PanelCharacter": {
+      "additionalProperties": false,
+      "description": "A character placed in a panel; `expression` is one of the known six or short free text.",
+      "properties": {
+        "expression": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Expression",
+          "type": "string"
+        },
+        "facing": {
+          "$ref": "#/$defs/Facing"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "pose": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Pose",
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/Position"
+        }
+      },
+      "required": [
+        "id",
+        "position",
+        "pose",
+        "expression",
+        "facing"
+      ],
+      "title": "PanelCharacter",
+      "type": "object"
+    },
+    "Position": {
+      "description": "Where a character stands in the frame.",
+      "enum": [
+        "left",
+        "center",
+        "right",
+        "foreground",
+        "background"
+      ],
+      "title": "Position",
+      "type": "string"
+    },
+    "Sfx": {
+      "additionalProperties": false,
+      "description": "A sound effect word, optionally near a character.",
+      "properties": {
+        "near": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Near"
+        },
+        "text": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "Sfx",
+      "type": "object"
+    },
+    "Shot": {
+      "description": "Camera distance (ARCHITECTURE 5.3, open question 5).",
+      "enum": [
+        "extreme-wide",
+        "wide",
+        "medium",
+        "close-up",
+        "extreme-close-up"
+      ],
+      "title": "Shot",
+      "type": "string"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/panel.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/panel@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "action": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Action",
+      "type": "string"
+    },
+    "angle": {
+      "$ref": "#/$defs/Angle"
+    },
+    "balloon_space": {
+      "$ref": "#/$defs/BalloonSpace"
+    },
+    "caption": {
+      "anyOf": [
+        {
+          "maxLength": 160,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Caption"
+    },
+    "characters": {
+      "items": {
+        "$ref": "#/$defs/PanelCharacter"
+      },
+      "maxItems": 5,
+      "title": "Characters",
+      "type": "array"
+    },
+    "continuity": {
+      "items": {
+        "maxLength": 160,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Continuity",
+      "type": "array"
+    },
+    "dialogue": {
+      "items": {
+        "$ref": "#/$defs/Dialogue"
+      },
+      "title": "Dialogue",
+      "type": "array"
+    },
+    "idx": {
+      "maximum": 6,
+      "minimum": 1,
+      "title": "Idx",
+      "type": "integer"
+    },
+    "mood": {
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Mood",
+      "type": "string"
+    },
+    "schema": {
+      "const": "comic-smith/panel@1",
+      "default": "comic-smith/panel@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "setting": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Setting",
+      "type": "string"
+    },
+    "sfx": {
+      "items": {
+        "$ref": "#/$defs/Sfx"
+      },
+      "title": "Sfx",
+      "type": "array"
+    },
+    "shot": {
+      "$ref": "#/$defs/Shot"
+    }
+  },
+  "required": [
+    "idx",
+    "shot",
+    "angle",
+    "setting",
+    "characters",
+    "action",
+    "dialogue",
+    "caption",
+    "sfx",
+    "continuity",
+    "mood",
+    "balloon_space"
+  ],
+  "title": "PanelSpec",
+  "type": "object"
+}

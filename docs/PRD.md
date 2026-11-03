@@ -427,6 +427,7 @@ Acceptance criteria:
 - [ ] Panel count is between 1 and 6, default 4, configurable per project and per call (`--panels`).
 - [ ] Dialogue respects the audience reading level; for `kids-5-8`: max 10 words per balloon and max 2 balloons per panel.
 - [ ] A total-words-per-strip limit applies per audience and is documented in ARCHITECTURE.
+  Values (Sprint 1, resolves open question 2): `kids-5-8` 60, `kids-9-12` 110, `all-ages` 130, `teen` 170, `adult` 220 words per strip; per-balloon and per-panel limits as listed in section 11.
 - [ ] Every speaking character exists in the cast.
 - [ ] Output validates against the Panel Spec JSON Schema, with one corrective retry on validation failure; a second failure surfaces exit code 5 (generation invalid).
 - [ ] The script is shown for editing before any image is rendered.
@@ -847,6 +848,7 @@ Each item gets a GitHub issue with the `enhancement` label.
 
 1. **Page size ids:** the prompt gives one CLI id (`us-comic`) and names the other sizes in prose. Proposed ids for ARCHITECTURE: `us-letter`, `a4`, `square-8.5`, `web`. Confirm.
 2. **Total words per strip by audience:** FR-013 requires a limit per audience, but the prompt only fixes `kids-5-8` balloon limits (10 words, 2 balloons per panel). Limits for the other four audiences need to be set in ARCHITECTURE.
+   **Resolved (Sprint 1):** words per balloon / balloons per panel / words per strip (dialogue plus captions): `kids-5-8` 10 / 2 / 60, `kids-9-12` 18 / 3 / 110, `all-ages` 20 / 3 / 130, `teen` 25 / 4 / 170, `adult` 30 / 4 / 220. Constants: `comic_smith/story/writer.py` `LIMITS`.
 3. **Rate limits:** the number of generation requests per session per minute is unspecified.
 4. **Reference hardware definition:** NFR-003 and the 60-minute flagship target assume "one 24 GB NVIDIA GPU"; the exact reference card and driver should be named in `docs/TEST_PLAN.md`.
 5. **Adult audience guard:** what content is allowed for `adult` and `teen` beyond the all-ages baseline, given the moderation pass cannot be disabled, needs an explicit policy table.

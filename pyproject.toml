@@ -159,8 +159,19 @@ root_package = "comic_smith"
 [[tool.importlinter.contracts]]
 name = "Front doors use the public API only"
 type = "forbidden"
-source_modules = ["comic_smith.cli", "comic_smith.server", "comic_smith.mcp_server"]
-forbidden_modules = ["comic_smith.db", "comic_smith.backends"]
+source_modules = [
+  "comic_smith.cli",
+  "comic_smith.cli_story",
+  "comic_smith.server",
+  "comic_smith.mcp_server",
+]
+forbidden_modules = [
+  "comic_smith.db",
+  "comic_smith.backends",
+  "comic_smith.story",
+  "comic_smith.projects",
+  "comic_smith.context",
+]
 allow_indirect_imports = true
 
 [tool.codespell]

@@ -135,8 +135,10 @@ def core_checks() -> list[Check]:
 
 
 def default_checks() -> list[Check]:
-    """Core checks; later sprints append backend, LLM, vision, and GPU checks here."""
-    return core_checks()
+    """Core checks plus backend checks; later sprints append vision and GPU checks here."""
+    from comic_smith.backends.llm.checks import llm_checks  # noqa: PLC0415 - avoids an import cycle
+
+    return [*core_checks(), *llm_checks()]
 
 
 def run_checks(settings: Settings, checks: list[Check]) -> DoctorReport:

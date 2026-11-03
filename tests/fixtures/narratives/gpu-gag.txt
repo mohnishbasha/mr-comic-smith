@@ -1,0 +1,1 @@
+Gigi the GPU refuses to share her memory. Every strip a different program politely asks for a few megabytes, and every strip Gigi finds a new reason to say no. A gag-a-day comic about a graphics card, a long queue of tiny jobs, and one very stubborn memory allocator.

@@ -89,10 +89,15 @@ JSON
 }
 
 protection() {
-  local full=(lint-and-typecheck unit-tests coverage integration-tests visual-regression e2e-tests check-versions)
+  local lint=("lint-and-typecheck (ubuntu-latest)" "lint-and-typecheck (macos-latest)" "lint-and-typecheck (windows-latest)")
+  local unit=()
+  for os in ubuntu-latest macos-latest windows-latest; do
+    for py in 3.12 3.13; do unit+=("unit-tests ($os, $py)"); done
+  done
+  local full=("${lint[@]}" "${unit[@]}" coverage integration-tests visual-regression e2e-tests check-versions)
   protect main 1 "${full[@]}"
   protect staging 1 "${full[@]}"
-  protect develop 0 lint-and-typecheck unit-tests coverage
+  protect develop 0 "${lint[@]}" "${unit[@]}" coverage
 }
 
 case "${1:-all}" in

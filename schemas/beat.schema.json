@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "BeatIntent": {
+      "description": "Intent of a stored beat: a suggestion intent or a free-text `custom` one.",
+      "enum": [
+        "continue",
+        "twist",
+        "steer",
+        "end",
+        "custom"
+      ],
+      "title": "BeatIntent",
+      "type": "string"
+    },
+    "BeatSource": {
+      "description": "Where a beat came from.",
+      "enum": [
+        "suggestion",
+        "custom",
+        "auto"
+      ],
+      "title": "BeatSource",
+      "type": "string"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/beat.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/beat@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "arc_stage": {
+      "maxLength": 30,
+      "minLength": 1,
+      "title": "Arc Stage",
+      "type": "string"
+    },
+    "beat": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Beat",
+      "type": "string"
+    },
+    "characters": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Characters",
+      "type": "array"
+    },
+    "description": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "intent": {
+      "$ref": "#/$defs/BeatIntent"
+    },
+    "original_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Original Text"
+    },
+    "panels": {
+      "default": 4,
+      "maximum": 6,
+      "minimum": 1,
+      "title": "Panels",
+      "type": "integer"
+    },
+    "schema": {
+      "const": "comic-smith/beat@1",
+      "default": "comic-smith/beat@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/BeatSource"
+    }
+  },
+  "required": [
+    "source",
+    "intent",
+    "beat",
+    "description",
+    "arc_stage",
+    "characters"
+  ],
+  "title": "Beat",
+  "type": "object"
+}

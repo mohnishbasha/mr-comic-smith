@@ -1,0 +1,23 @@
+{
+  "schema": "comic-smith/panel@1",
+  "idx": 2,
+  "shot": "medium",
+  "angle": "eye-level",
+  "setting": "bathtub edge, warm evening light, bubbles",
+  "characters": [
+    {"id": "ch_puddle", "position": "left", "pose": "leaning over the edge",
+     "expression": "scared", "facing": "right"},
+    {"id": "ch_sub", "position": "right", "pose": "waving from the water",
+     "expression": "happy", "facing": "left"}
+  ],
+  "action": "Sub waves Puddle into the water; Puddle clutches the tub edge.",
+  "dialogue": [
+    {"speaker": "ch_sub", "type": "speech", "text": "Jump in! It's warm!"},
+    {"speaker": "ch_puddle", "type": "whisper", "text": "Ducks don't do deep."}
+  ],
+  "caption": null,
+  "sfx": [{"text": "SPLISH", "near": "ch_sub"}],
+  "continuity": ["Puddle wears the red bandana from strip 1"],
+  "mood": "playful tension",
+  "balloon_space": "top"
+}

@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "Intent": {
+      "description": "What a suggestion option does to the plot.",
+      "enum": [
+        "continue",
+        "twist",
+        "steer",
+        "end"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "SuggestionOption": {
+      "additionalProperties": false,
+      "description": "One plot option the user can pick.",
+      "properties": {
+        "arc_stage": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Arc Stage",
+          "type": "string"
+        },
+        "beat": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Beat",
+          "type": "string"
+        },
+        "characters": {
+          "items": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 1,
+          "title": "Characters",
+          "type": "array"
+        },
+        "description": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "intent": {
+          "$ref": "#/$defs/Intent"
+        },
+        "thumbnail_prompt": {
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Thumbnail Prompt",
+          "type": "string"
+        }
+      },
+      "required": [
+        "intent",
+        "beat",
+        "description",
+        "arc_stage",
+        "characters",
+        "thumbnail_prompt"
+      ],
+      "title": "SuggestionOption",
+      "type": "object"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/suggestions.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/suggestions@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "after_strip": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "After Strip"
+    },
+    "arc_progress": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Arc Progress",
+      "type": "number"
+    },
+    "end_here": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SuggestionOption"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "options": {
+      "items": {
+        "$ref": "#/$defs/SuggestionOption"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Options",
+      "type": "array"
+    },
+    "schema": {
+      "const": "comic-smith/suggestions@1",
+      "default": "comic-smith/suggestions@1",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "after_strip",
+    "arc_progress",
+    "options",
+    "end_here"
+  ],
+  "title": "SuggestionSet",
+  "type": "object"
+}

@@ -1,0 +1,272 @@
+{
+  "$defs": {
+    "BookMetadata": {
+      "additionalProperties": false,
+      "description": "Bibliographic data, also written into export file metadata.",
+      "properties": {
+        "author": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "language": {
+          "default": "en",
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Language",
+          "type": "string"
+        },
+        "noncommercial_models_used": {
+          "default": false,
+          "title": "Noncommercial Models Used",
+          "type": "boolean"
+        },
+        "subtitle": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subtitle"
+        },
+        "title": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1900,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Year"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "title": "BookMetadata",
+      "type": "object"
+    },
+    "BookPage": {
+      "additionalProperties": false,
+      "description": "A page entry in the manifest.",
+      "properties": {
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "idx": {
+          "minimum": 1,
+          "title": "Idx",
+          "type": "integer"
+        },
+        "kind": {
+          "$ref": "#/$defs/PageKind"
+        },
+        "layout_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Layout Id",
+          "type": "string"
+        },
+        "story_id": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Story Id"
+        }
+      },
+      "required": [
+        "id",
+        "idx",
+        "kind",
+        "layout_id"
+      ],
+      "title": "BookPage",
+      "type": "object"
+    },
+    "Chapter": {
+      "additionalProperties": false,
+      "description": "A story included in the book.",
+      "properties": {
+        "start_page": {
+          "minimum": 1,
+          "title": "Start Page",
+          "type": "integer"
+        },
+        "story_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Story Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "story_id",
+        "title",
+        "start_page"
+      ],
+      "title": "Chapter",
+      "type": "object"
+    },
+    "ExportDefaults": {
+      "additionalProperties": false,
+      "description": "Default export options, also stored in `book.settings_json`.",
+      "properties": {
+        "bleed_in": {
+          "default": 0.125,
+          "minimum": 0,
+          "title": "Bleed In",
+          "type": "number"
+        },
+        "dpi": {
+          "default": 300,
+          "enum": [
+            72,
+            150,
+            300
+          ],
+          "title": "Dpi",
+          "type": "integer"
+        },
+        "pdf_mode": {
+          "default": "print",
+          "enum": [
+            "screen",
+            "print"
+          ],
+          "title": "Pdf Mode",
+          "type": "string"
+        },
+        "single_file_web": {
+          "default": true,
+          "title": "Single File Web",
+          "type": "boolean"
+        },
+        "trim_marks": {
+          "default": false,
+          "title": "Trim Marks",
+          "type": "boolean"
+        }
+      },
+      "title": "ExportDefaults",
+      "type": "object"
+    },
+    "PageKind": {
+      "description": "Kinds of book page.",
+      "enum": [
+        "story",
+        "cover",
+        "title",
+        "dedication",
+        "cast",
+        "back",
+        "custom"
+      ],
+      "title": "PageKind",
+      "type": "string"
+    },
+    "PageSize": {
+      "description": "Page size keys (ARCHITECTURE 4.2).",
+      "enum": [
+        "us-comic",
+        "us-letter",
+        "a4",
+        "square",
+        "web"
+      ],
+      "title": "PageSize",
+      "type": "string"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/book.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/book@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "chapters": {
+      "items": {
+        "$ref": "#/$defs/Chapter"
+      },
+      "title": "Chapters",
+      "type": "array"
+    },
+    "export_defaults": {
+      "$ref": "#/$defs/ExportDefaults"
+    },
+    "id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "pattern": "^bk_",
+      "title": "Id",
+      "type": "string"
+    },
+    "metadata": {
+      "$ref": "#/$defs/BookMetadata"
+    },
+    "page_size": {
+      "$ref": "#/$defs/PageSize"
+    },
+    "pages": {
+      "items": {
+        "$ref": "#/$defs/BookPage"
+      },
+      "title": "Pages",
+      "type": "array"
+    },
+    "schema": {
+      "const": "comic-smith/book@1",
+      "default": "comic-smith/book@1",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "metadata",
+    "page_size",
+    "pages"
+  ],
+  "title": "BookManifest",
+  "type": "object"
+}

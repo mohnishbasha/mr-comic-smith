@@ -1,0 +1,16 @@
+{
+  "schema": "comic-smith/book@1",
+  "id": "bk_01J0000000000000000000000A",
+  "metadata": {"title": "Puddle, the Duck Who Would Not Swim", "subtitle": "A bath time adventure",
+               "author": "Mina and Dad", "year": 2026, "language": "en",
+               "noncommercial_models_used": false},
+  "page_size": "us-comic",
+  "pages": [
+    {"id": "pg_01J0000000000000000000000A", "idx": 1, "kind": "cover", "layout_id": "cover-full", "story_id": null},
+    {"id": "pg_01K0000000000000000000000A", "idx": 2, "kind": "title", "layout_id": "title-center", "story_id": null},
+    {"id": "pg_01L0000000000000000000000A", "idx": 3, "kind": "story", "layout_id": "strip-stack", "story_id": "sy_01J0000000000000000000000A"}
+  ],
+  "chapters": [{"story_id": "sy_01J0000000000000000000000A", "title": "Puddle Takes the Plunge", "start_page": 3}],
+  "export_defaults": {"dpi": 300, "pdf_mode": "print", "bleed_in": 0.125, "trim_marks": false,
+                      "single_file_web": true}
+}

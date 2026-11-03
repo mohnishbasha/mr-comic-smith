@@ -1,0 +1,15 @@
+{
+  "schema": "comic-smith/style@1",
+  "id": "st_picture_book_watercolor",
+  "name": "Picture book watercolor",
+  "description": "Soft washes, gentle outlines, warm paper tones.",
+  "audiences": ["all-ages", "kids-5-8", "kids-9-12"],
+  "positive_tokens": ["children's picture book illustration", "watercolor", "soft edges"],
+  "negative_tokens": ["photorealistic", "text", "letters", "watermark"],
+  "palette_hints": ["#F5E9D4", "#8FB8DE", "#E8A87C"],
+  "line_weight": "medium",
+  "photoreal": false,
+  "lettering": {"case": "mixed", "font": "comic-neue", "caption_font": "atkinson-hyperlegible"},
+  "backend_params": {"comfyui": {"cfg": 4.0, "steps": 28}, "gemini": {}, "openai": {}},
+  "reference_assets": []
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "comic-smith/beat@1",
+  "source": "suggestion",
+  "intent": "continue",
+  "beat": "Puddle builds a raft from a soap dish",
+  "description": "Puddle refuses to swim but has an idea. The raft wobbles.",
+  "arc_stage": "try-1",
+  "characters": ["ch_puddle"],
+  "panels": 4,
+  "original_text": null
+}

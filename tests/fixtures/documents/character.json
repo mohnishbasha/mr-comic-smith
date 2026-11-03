@@ -1,0 +1,22 @@
+{
+  "schema": "comic-smith/character@1",
+  "id": "ch_puddle",
+  "slug": "puddle",
+  "name": "Puddle",
+  "source": "photo",
+  "reference": {
+    "subject": "rubber duck",
+    "palette": ["#F5D547", "#E8622C", "#FFFFFF"],
+    "features": ["round body", "orange beak", "painted black eyes"],
+    "accessories": ["red bandana"]
+  },
+  "visual_dna": "A small round yellow rubber duck with a bright orange beak, painted black eyes, and a red bandana knotted at its neck.",
+  "sheet": {
+    "views": {"front": "a1", "side": "a2", "three_quarter": "a3"},
+    "expressions": {"neutral": "b1", "happy": "b2", "sad": "b3", "surprised": "b4", "angry": "b5", "scared": "b6"},
+    "composed": "c1"
+  },
+  "approved_at": "2026-11-02T15:10:00Z",
+  "attestation": null,
+  "originality": {"denylist": "pass", "resemblance": "pass", "rule": null, "checked_at": "2026-11-02T15:10:30Z"}
+}
