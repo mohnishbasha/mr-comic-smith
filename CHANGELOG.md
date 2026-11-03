@@ -11,6 +11,10 @@ break compatibility and the changelog says so.
 
 - Project scaffold: `mr-comic-smith --version`, `doctor`, and an empty Studio shell.
 - Per-project SQLite database with migrations, a content-addressed asset store, and an undoable event log.
+- Story engine: a story bible written from your narrative (editable, versioned), three different ideas for the next strip (continue, twist, steer, plus an ending near the end), your own free-text ideas, and script-only strips with panel specs.
+- Story branches (create, switch, rename, delete), strip approval, continuity-checked finalize, and undo and redo for every change.
+- Auto mode: writes and approves a whole story draft by policy (balanced, steer, twist) up to the target length, then stops before finalize.
+- CLI: `new`, `bible`, `suggest`, `strip`, `strips`, `approve`, `branch`, `finalize`, `auto`, `undo`, `redo`, and `history`, all with `--json`.
 
 ### Changed
 

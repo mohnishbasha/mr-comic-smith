@@ -1,0 +1,43 @@
+# Originality denylist (FR-006, FR-028). Matching is case-insensitive on whole words; spaces in a
+# pattern match any run of whitespace. Add rules by appending; bump `version` when the format changes.
+version: 1
+rules:
+  - id: franchise.disney
+    kind: franchise
+    patterns: [Disney, Pixar, Frozen, Toy Story, Lion King]
+  - id: franchise.marvel-dc
+    kind: franchise
+    patterns: [Marvel, DC Comics, Avengers, Justice League, X-Men]
+  - id: franchise.nintendo-pokemon
+    kind: franchise
+    patterns: [Nintendo, Pokemon, Pokémon, Zelda, Animal Crossing]
+  - id: franchise.star-wars
+    kind: franchise
+    patterns: [Star Wars, Jedi, Lightsaber, Star Trek]
+  - id: franchise.wizarding
+    kind: franchise
+    patterns: [Harry Potter, Hogwarts, Lord of the Rings, Middle-earth, Game of Thrones]
+  - id: franchise.studio
+    kind: franchise
+    patterns: [Studio Ghibli, DreamWorks, Looney Tunes, Hanna-Barbera, Sesame Street]
+  - id: character.mickey
+    kind: character
+    patterns: [Mickey Mouse, Minnie Mouse, Donald Duck, Winnie the Pooh, Cinderella]
+  - id: character.nintendo
+    kind: character
+    patterns: [Super Mario, Luigi, Pikachu, Sonic the Hedgehog]
+  - id: character.superheroes
+    kind: character
+    patterns: [Batman, Superman, Spider-Man, Spiderman, Wonder Woman, Iron Man, Captain America]
+  - id: character.cartoon
+    kind: character
+    patterns: [SpongeBob, Bugs Bunny, Daffy Duck, Snoopy, Charlie Brown, Peppa Pig, Hello Kitty, Doraemon]
+  - id: character.film
+    kind: character
+    patterns: [Darth Vader, Yoda, Shrek, Simba, Bluey, Paddington, Totoro]
+  - id: artist.living-manga
+    kind: artist
+    patterns: [Hayao Miyazaki, Eiichiro Oda, Naoki Urasawa, Akira Toriyama, Masashi Kishimoto, Rumiko Takahashi]
+  - id: artist.living-western
+    kind: artist
+    patterns: [Frank Miller, Jim Lee, Todd McFarlane, Bill Watterson, Art Spiegelman, Jeff Smith, Raina Telgemeier]

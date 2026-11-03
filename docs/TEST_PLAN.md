@@ -194,6 +194,7 @@ tests/fixtures/
 
 ### Fixture maintenance
 
+- Story integration tests (`it_story_*_ollama_*`) send every call through the fail-closed moderation classifier, which needs a capable model. `qwen3:0.6b` blocks harmless text, so they default to `qwen3:14b` plus `nomic-embed-text` (`COMIC_SMITH_IT_STORY_MODEL` overrides) and skip when those are not installed, including on the hosted CI runner. Only the provider-level test `it_ollama_tiny_model_returns_schema_valid_json` uses the tiny model.
 - Recorded LLM, vision, and ComfyUI fixtures are keyed by prompt template version; changing a template requires re-recording (`make record-fixtures`, needs Ollama) and reviewing diffs.
 - Goldens render with bundled fonts only and a pinned Chromium version from Playwright.
 - `images/duck.jpg` and `images/person-consented.jpg` are the maintainer's own photos; never use third-party photos. The duck photo carries EXIF GPS on purpose to test stripping.
@@ -295,69 +296,69 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_llm_ollama_chat_request_sends_schema_in_format` | Ollama /api/chat body carries the schema in format (respx) | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_anthropic_provider_uses_tool_use_for_json` | Anthropic call uses tool-use or structured output (stubbed SDK) | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_openai_compat_response_format_json_schema` | response_format carries the schema | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_fake_provider_replays_by_prompt_hash` | FakeProvider returns the recorded response | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_fake_provider_unknown_hash_names_record_command` | Missing recording names the hash and `make record-fixtures` | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_provider_string_parsing_all_three_formats` | ollama, anthropic, and openai_compat strings parse | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_complete_json_invalid_output_one_corrective_retry` | One retry with validation errors in the prompt | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_complete_json_second_failure_raises` | Second failure raises a typed error | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_retry_backoff_on_5xx` | 5xx responses retry with backoff | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_timeout_raises_provider_timeout` | Timeout maps to ComicSmithError | Unit | `S1-T01` | ⚠️ Deferred |
-| `test_llm_token_usage_recorded_per_call` | Usage is stored with the call record | Unit | `S1-T01` | ⚠️ Deferred |
-| `it_ollama_tiny_model_returns_schema_valid_json` | Real Ollama tiny model returns valid JSON | Integration | `S1-T01` | ⚠️ Deferred |
+| `test_llm_ollama_chat_request_sends_schema_in_format` | Ollama /api/chat body carries the schema in format (respx) | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_anthropic_provider_uses_tool_use_for_json` | Anthropic call uses tool-use or structured output (stubbed SDK) | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_openai_compat_response_format_json_schema` | response_format carries the schema | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_fake_provider_replays_by_prompt_hash` | FakeProvider returns the recorded response | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_fake_provider_unknown_hash_names_record_command` | Missing recording names the hash and `make record-fixtures` | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_provider_string_parsing_all_three_formats` | ollama, anthropic, and openai_compat strings parse | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_complete_json_invalid_output_one_corrective_retry` | One retry with validation errors in the prompt | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_complete_json_second_failure_raises` | Second failure raises a typed error | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_retry_backoff_on_5xx` | 5xx responses retry with backoff | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_timeout_raises_provider_timeout` | Timeout maps to ComicSmithError | Unit | `S1-T01` | ✅ Automated |
+| `test_llm_token_usage_recorded_per_call` | Usage is stored with the call record | Unit | `S1-T01` | ✅ Automated |
+| `it_ollama_tiny_model_returns_schema_valid_json` | Real Ollama tiny model returns valid JSON | Integration | `S1-T01` | ✅ Automated |
 
 ### 5.5 Schemas (PRD ADR-007)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_schemas_models_roundtrip_all_five_documents` | Model to JSON to model is identity | Unit | `S1-T02` | ⚠️ Deferred |
-| `test_schemas_export_json_schemas_are_current` | schemas/ matches the pydantic models | Unit | `S1-T02` | ⚠️ Deferred |
-| `test_schemas_fixture_documents_validate` | Fixture documents validate against the schemas | Unit | `S1-T02` | ⚠️ Deferred |
-| `test_schemas_panel_spec_invalid_shot_rejected` | Unknown shot value fails validation | Unit | `S1-T02` | ⚠️ Deferred |
-| `test_schemas_beat_requires_arc_stage` | Beat without arc stage fails validation | Unit | `S1-T02` | ⚠️ Deferred |
-| `test_schemas_continuity_report_issue_kinds_enum` | Issue kind outside the enum fails | Unit | `S1-T02` | ⚠️ Deferred |
+| `test_schemas_models_roundtrip_all_five_documents` | Model to JSON to model is identity | Unit | `S1-T02` | ✅ Automated |
+| `test_schemas_export_json_schemas_are_current` | schemas/ matches the pydantic models | Unit | `S1-T02` | ✅ Automated |
+| `test_schemas_fixture_documents_validate` | Fixture documents validate against the schemas | Unit | `S1-T02` | ✅ Automated |
+| `test_schemas_panel_spec_invalid_shot_rejected` | Unknown shot value fails validation | Unit | `S1-T02` | ✅ Automated |
+| `test_schemas_beat_requires_arc_stage` | Beat without arc stage fails validation | Unit | `S1-T02` | ✅ Automated |
+| `test_schemas_continuity_report_issue_kinds_enum` | Issue kind outside the enum fails | Unit | `S1-T02` | ✅ Automated |
 
 ### 5.6 Story bible and arc (PRD FR-009, FR-010, US-002)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_story_bible_target_strips_out_of_range_rejected` | Targets of 0 and 41 are rejected | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_bible_generate_from_narrative_fake_provider_validates` | FakeProvider bible validates against the schema | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_bible_audience_values_enum_with_all_ages_default` | Audience enum and default | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_bible_edit_creates_new_version` | Each edit increments the bible version | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_bible_edit_is_undoable_event` | Edit is an event and undo restores the prior version | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_arc_templates_five_templates_load_with_stages` | Five templates with stages load | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_bible_default_arc_for_kids_is_problem_try_try_succeed` | Kids audiences default to problem-try-try-succeed | Unit | `S1-T03` | ⚠️ Deferred |
-| `test_story_prompts_bible_template_version_recorded` | Prompt template version is stored with the bible | Unit | `S1-T03` | ⚠️ Deferred |
-| `it_story_bible_ollama_generates_valid_bible` | Real Ollama run yields a valid bible | Integration | `S1-T03` | ⚠️ Deferred |
-| `test_story_arc_progress_updates_after_approval` | Approval advances progress | Unit | `S1-T04` | ⚠️ Deferred |
-| `test_story_arc_progress_computed_from_stage_index_and_target` | Progress formula | Unit | `S1-T04` | ⚠️ Deferred |
-| `test_story_arc_threads_opened_and_closed_from_diff` | Diff opens and closes threads | Unit | `S1-T04` | ⚠️ Deferred |
-| `test_story_arc_diff_unknown_thread_close_ignored` | Closing an unknown thread is ignored with a warning | Unit | `S1-T04` | ⚠️ Deferred |
-| `test_story_arc_gag_a_day_has_no_stage_progress` | gag-a-day has no arc progress | Unit | `S1-T04` | ⚠️ Deferred |
-| `test_story_arc_each_strip_tagged_with_stage` | Strip record stores its stage | Unit | `S1-T04` | ⚠️ Deferred |
-| `test_story_arc_progress_clamped_0_to_100` | Progress never leaves 0 to 100 | Unit | `S1-T04` | ⚠️ Deferred |
+| `test_story_bible_target_strips_out_of_range_rejected` | Targets of 0 and 41 are rejected | Unit | `S1-T03` | ✅ Automated |
+| `test_story_bible_generate_from_narrative_fake_provider_validates` | FakeProvider bible validates against the schema | Unit | `S1-T03` | ✅ Automated |
+| `test_story_bible_audience_values_enum_with_all_ages_default` | Audience enum and default | Unit | `S1-T03` | ✅ Automated |
+| `test_story_bible_edit_creates_new_version` | Each edit increments the bible version | Unit | `S1-T03` | ✅ Automated |
+| `test_story_bible_edit_is_undoable_event` | Edit is an event and undo restores the prior version | Unit | `S1-T03` | ✅ Automated |
+| `test_story_arc_templates_five_templates_load_with_stages` | Five templates with stages load | Unit | `S1-T03` | ✅ Automated |
+| `test_story_bible_default_arc_for_kids_is_problem_try_try_succeed` | Kids audiences default to problem-try-try-succeed | Unit | `S1-T03` | ✅ Automated |
+| `test_story_prompts_bible_template_version_recorded` | Prompt template version is stored with the bible | Unit | `S1-T03` | ✅ Automated |
+| `it_story_bible_ollama_generates_valid_bible` | Real Ollama run yields a valid bible | Integration | `S1-T03` | ✅ Automated |
+| `test_story_arc_progress_updates_after_approval` | Approval advances progress | Unit | `S1-T04` | ✅ Automated |
+| `test_story_arc_progress_computed_from_stage_index_and_target` | Progress formula | Unit | `S1-T04` | ✅ Automated |
+| `test_story_arc_threads_opened_and_closed_from_diff` | Diff opens and closes threads | Unit | `S1-T04` | ✅ Automated |
+| `test_story_arc_diff_unknown_thread_close_ignored` | Closing an unknown thread is ignored with a warning | Unit | `S1-T04` | ✅ Automated |
+| `test_story_arc_gag_a_day_has_no_stage_progress` | gag-a-day has no arc progress | Unit | `S1-T04` | ✅ Automated |
+| `test_story_arc_each_strip_tagged_with_stage` | Strip record stores its stage | Unit | `S1-T04` | ✅ Automated |
+| `test_story_arc_progress_clamped_0_to_100` | Progress never leaves 0 to 100 | Unit | `S1-T04` | ✅ Automated |
 
 ### 5.7 Plot suggestions, custom beats, and thumbnails (PRD FR-011, FR-012, US-004, US-005, US-009)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_story_suggest_returns_three_distinct_intents` | continue, twist, steer returned | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_similar_options_regenerated_once` | Similar pair triggers one regeneration | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_final_stage_includes_end_here` | Final stage adds end-here | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_target_length_reached_includes_end_here` | Target length adds end-here | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_option_has_required_fields` | Beat, description, stage, characters, thumbnail prompt | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_context_includes_bible_last_three_summaries_threads` | Prompt context contents | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_still_similar_after_regen_returns_with_warning` | No infinite regeneration | Unit | `S1-T05` | ⚠️ Deferred |
-| `test_story_suggest_embeddings_cosine_threshold_085` | Threshold boundary at 0.85 | Unit | `S1-T05` | ⚠️ Deferred |
-| `it_story_suggest_ollama_distinct_options` | Real Ollama yields distinct options | Integration | `S1-T05` | ⚠️ Deferred |
-| `it_story_suggest_local_model_within_10s` | Local 14B suggestions in under 10 s (GPU runner) | Integration (GPU) | `S1-T05` | ⚠️ Deferred |
-| `test_story_beat_normalize_free_text_to_beat_structure` | Free text becomes a valid beat | Unit | `S1-T06` | ⚠️ Deferred |
-| `test_story_beat_normalized_returned_for_confirmation` | Result is returned unconfirmed | Unit | `S1-T06` | ⚠️ Deferred |
-| `test_story_beat_edit_suggestion_keeps_other_fields` | Edited suggestion retains other fields | Unit | `S1-T06` | ⚠️ Deferred |
-| `test_story_beat_empty_text_rejected` | Empty text is rejected | Unit | `S1-T06` | ⚠️ Deferred |
+| `test_story_suggest_returns_three_distinct_intents` | continue, twist, steer returned | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_similar_options_regenerated_once` | Similar pair triggers one regeneration | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_final_stage_includes_end_here` | Final stage adds end-here | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_target_length_reached_includes_end_here` | Target length adds end-here | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_option_has_required_fields` | Beat, description, stage, characters, thumbnail prompt | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_context_includes_bible_last_three_summaries_threads` | Prompt context contents | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_still_similar_after_regen_returns_with_warning` | No infinite regeneration | Unit | `S1-T05` | ✅ Automated |
+| `test_story_suggest_embeddings_cosine_threshold_085` | Threshold boundary at 0.85 | Unit | `S1-T05` | ✅ Automated |
+| `it_story_suggest_ollama_distinct_options` | Real Ollama yields distinct options | Integration | `S1-T05` | ✅ Automated |
+| `it_story_suggest_local_model_within_10s` | Local 14B suggestions in under 10 s (GPU runner) | Integration (GPU) | `S1-T05` | ✅ Automated |
+| `test_story_beat_normalize_free_text_to_beat_structure` | Free text becomes a valid beat | Unit | `S1-T06` | ✅ Automated |
+| `test_story_beat_normalized_returned_for_confirmation` | Result is returned unconfirmed | Unit | `S1-T06` | ✅ Automated |
+| `test_story_beat_edit_suggestion_keeps_other_fields` | Edited suggestion retains other fields | Unit | `S1-T06` | ✅ Automated |
+| `test_story_beat_empty_text_rejected` | Empty text is rejected | Unit | `S1-T06` | ✅ Automated |
 | `test_story_thumbnail_job_low_priority_small_size` | Job parameters | Unit | `S3-T09` | ⚠️ Deferred |
 | `test_story_thumbnail_skipped_when_estimate_exceeds_budget` | Budget gate | Unit | `S3-T09` | ⚠️ Deferred |
 | `test_story_thumbnail_placeholder_when_skipped` | Placeholder used | Unit | `S3-T09` | ⚠️ Deferred |
@@ -368,30 +369,30 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_story_writer_unknown_speaker_rejected` | Speaker outside the cast fails | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_kids_word_limit_enforced` | 11-word balloon fails for kids-5-8 | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_kids_max_two_balloons_per_panel` | Third balloon fails for kids-5-8 | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_total_words_per_strip_limit` | Per-audience strip word cap | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_shot_variety_no_three_consecutive_same_shot` | Three equal shots in a row fail | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_panel_count_default_four_range_one_to_six` | Default and range | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_invalid_output_one_corrective_retry` | One retry then success or typed error | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_balloon_space_hint_present_per_panel` | Every panel has a balloon_space hint | Unit | `S1-T07` | ⚠️ Deferred |
-| `test_story_writer_continuity_notes_from_previous_strips` | Prior strips feed continuity notes | Unit | `S1-T07` | ⚠️ Deferred |
-| `it_story_writer_ollama_valid_panel_specs` | Real Ollama yields valid Panel Specs | Integration | `S1-T07` | ⚠️ Deferred |
+| `test_story_writer_unknown_speaker_rejected` | Speaker outside the cast fails | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_kids_word_limit_enforced` | 11-word balloon fails for kids-5-8 | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_kids_max_two_balloons_per_panel` | Third balloon fails for kids-5-8 | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_total_words_per_strip_limit` | Per-audience strip word cap | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_shot_variety_no_three_consecutive_same_shot` | Three equal shots in a row fail | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_panel_count_default_four_range_one_to_six` | Default and range | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_invalid_output_one_corrective_retry` | One retry then success or typed error | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_balloon_space_hint_present_per_panel` | Every panel has a balloon_space hint | Unit | `S1-T07` | ✅ Automated |
+| `test_story_writer_continuity_notes_from_previous_strips` | Prior strips feed continuity notes | Unit | `S1-T07` | ✅ Automated |
+| `it_story_writer_ollama_valid_panel_specs` | Real Ollama yields valid Panel Specs | Integration | `S1-T07` | ✅ Automated |
 
 ### 5.9 Moderation and audience safety (PRD FR-028, US-019, NFR-012)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_safety_moderation_blocked_bible_raises_safety_blocked` | Blocked bible raises safety_blocked | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_moderation_verdict_strict_json_schema` | Verdict must match the schema | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_moderation_runs_on_suggestions_beats_scripts` | All four text artifacts are checked | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_audience_rules_in_every_system_prompt` | Every story prompt template includes audience rules | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_denylist_copyrighted_name_blocked_in_beat` | Denylisted name in a beat is blocked | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_blocked_error_explains_in_plain_words` | Message names the rule in plain words | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_denylist_loaded_from_yaml_data_file` | Denylist is data, not code | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_moderation_unparseable_verdict_fails_closed` | Bad verdict blocks | Unit | `S1-T08` | ⚠️ Deferred |
-| `test_safety_audience_kids_blocks_violent_beat` | Violent beat blocked for kids audience | Unit | `S1-T08` | ⚠️ Deferred |
+| `test_safety_moderation_blocked_bible_raises_safety_blocked` | Blocked bible raises safety_blocked | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_moderation_verdict_strict_json_schema` | Verdict must match the schema | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_moderation_runs_on_suggestions_beats_scripts` | All four text artifacts are checked | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_audience_rules_in_every_system_prompt` | Every story prompt template includes audience rules | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_denylist_copyrighted_name_blocked_in_beat` | Denylisted name in a beat is blocked | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_blocked_error_explains_in_plain_words` | Message names the rule in plain words | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_denylist_loaded_from_yaml_data_file` | Denylist is data, not code | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_moderation_unparseable_verdict_fails_closed` | Bad verdict blocks | Unit | `S1-T08` | ✅ Automated |
+| `test_safety_audience_kids_blocks_violent_beat` | Violent beat blocked for kids audience | Unit | `S1-T08` | ✅ Automated |
 | `test_safety_image_audience_failing_take_hidden` | Hidden take | Unit | `S3-T13` | ⚠️ Deferred |
 | `test_safety_image_audience_failing_take_auto_retaken` | Auto retake | Unit | `S3-T13` | ⚠️ Deferred |
 | `test_safety_image_audience_verdict_per_take_cached` | Verdict cache | Unit | `S3-T13` | ⚠️ Deferred |
@@ -403,34 +404,34 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `test_story_branch_create_from_approved_strip` | Branch forks at an approved strip | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_branch_strip_listing_follows_parent_chain_to_fork` | Listing includes parent strips up to the fork | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_branch_switch_changes_active_branch` | Switch updates the active branch | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_branch_rename` | Rename persists | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_branch_delete_keeps_shared_strips` | Delete keeps strips used by other branches | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_branch_delete_active_branch_rejected` | Active branch cannot be deleted | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_branch_create_from_unapproved_strip_rejected` | Fork needs an approved strip | Unit | `S1-T09` | ⚠️ Deferred |
-| `test_story_finalize_continuity_report_structure` | Report has the four issue kinds | Unit | `S1-T10` | ⚠️ Deferred |
-| `test_story_finalize_returns_three_titles_and_blurb` | Three titles and a one-line blurb | Unit | `S1-T10` | ⚠️ Deferred |
-| `test_story_finalize_locks_story_read_only` | Locked story rejects edits | Unit | `S1-T10` | ⚠️ Deferred |
-| `test_story_finalize_anyway_with_open_issues_allowed` | Open issues do not block finalize | Unit | `S1-T10` | ⚠️ Deferred |
-| `test_story_finalize_reopen_creates_new_version` | Reopen increments the story version | Unit | `S1-T10` | ⚠️ Deferred |
-| `test_story_finalize_edit_locked_story_rejected` | Edit on locked story raises | Unit | `S1-T10` | ⚠️ Deferred |
-| `test_story_finalize_report_jump_to_strip_ids` | Each issue carries strip ids | Unit | `S1-T10` | ⚠️ Deferred |
+| `test_story_branch_create_from_approved_strip` | Branch forks at an approved strip | Unit | `S1-T09` | ✅ Automated |
+| `test_story_branch_strip_listing_follows_parent_chain_to_fork` | Listing includes parent strips up to the fork | Unit | `S1-T09` | ✅ Automated |
+| `test_story_branch_switch_changes_active_branch` | Switch updates the active branch | Unit | `S1-T09` | ✅ Automated |
+| `test_story_branch_rename` | Rename persists | Unit | `S1-T09` | ✅ Automated |
+| `test_story_branch_delete_keeps_shared_strips` | Delete keeps strips used by other branches | Unit | `S1-T09` | ✅ Automated |
+| `test_story_branch_delete_active_branch_rejected` | Active branch cannot be deleted | Unit | `S1-T09` | ✅ Automated |
+| `test_story_branch_create_from_unapproved_strip_rejected` | Fork needs an approved strip | Unit | `S1-T09` | ✅ Automated |
+| `test_story_finalize_continuity_report_structure` | Report has the four issue kinds | Unit | `S1-T10` | ✅ Automated |
+| `test_story_finalize_returns_three_titles_and_blurb` | Three titles and a one-line blurb | Unit | `S1-T10` | ✅ Automated |
+| `test_story_finalize_locks_story_read_only` | Locked story rejects edits | Unit | `S1-T10` | ✅ Automated |
+| `test_story_finalize_anyway_with_open_issues_allowed` | Open issues do not block finalize | Unit | `S1-T10` | ✅ Automated |
+| `test_story_finalize_reopen_creates_new_version` | Reopen increments the story version | Unit | `S1-T10` | ✅ Automated |
+| `test_story_finalize_edit_locked_story_rejected` | Edit on locked story raises | Unit | `S1-T10` | ✅ Automated |
+| `test_story_finalize_report_jump_to_strip_ids` | Each issue carries strip ids | Unit | `S1-T10` | ✅ Automated |
 
 ### 5.11 Story CLI (PRD FR-030, FR-026, US-016)
 
 | ID | Scenario | Type | Task | Status |
 |---|---|---|---|---|
-| `smoke_cli_new_auto_finalize_scripted_story` | new, auto --until-target, finalize with FakeProvider | Smoke | `S1-T11` | ⚠️ Deferred |
-| `test_cli_new_narrative_creates_project_json_output` | new --narrative --json prints the project id | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_bible_show_and_edit` | bible show and edit round trip | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_suggest_json_returns_three_options` | suggest --json has three options | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_strip_pick_writes_script_only` | strip --pick writes a script without images | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_strip_beat_free_text` | strip --beat normalizes free text | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_branch_create_switch_list` | branch subcommands | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_auto_until_target_policy_balanced` | auto stops at the target | Unit | `S1-T11` | ⚠️ Deferred |
-| `test_cli_all_story_commands_support_json_flag` | Every command accepts --json | Unit | `S1-T11` | ⚠️ Deferred |
+| `smoke_cli_new_auto_finalize_scripted_story` | new, auto --until-target, finalize with FakeProvider | Smoke | `S1-T11` | ✅ Automated |
+| `test_cli_new_narrative_creates_project_json_output` | new --narrative --json prints the project id | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_bible_show_and_edit` | bible show and edit round trip | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_suggest_json_returns_three_options` | suggest --json has three options | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_strip_pick_writes_script_only` | strip --pick writes a script without images | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_strip_beat_free_text` | strip --beat normalizes free text | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_branch_create_switch_list` | branch subcommands | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_auto_until_target_policy_balanced` | auto stops at the target | Unit | `S1-T11` | ✅ Automated |
+| `test_cli_all_story_commands_support_json_flag` | Every command accepts --json | Unit | `S1-T11` | ✅ Automated |
 
 ### 5.12 Asset ingest (PRD FR-002)
 
@@ -1183,6 +1184,174 @@ Conventions: ids follow section 3. Types are Unit, Integration, Integration (GPU
 | `test_server_static_path_traversal_is_not_served` | server static path traversal is not served | Unit | none | ✅ Automated |
 | `test_server_wait_for_port_times_out_on_closed_port` | server wait for port times out on closed port | Unit | none | ✅ Automated |
 | `test_visual_compare_size_mismatch_fails` | visual compare size mismatch fails | Unit | none | ✅ Automated |
+| `e2e_US002_empty_home_prompts_for_story_idea` | US002 empty home prompts for story idea | E2E | none | ✅ Automated |
+| `it_ollama_embeddings_are_normalized` | ollama embeddings are normalized | Integration | none | ✅ Automated |
+| `test_approve_unapprove_list_and_edit_panel` | approve unapprove list and edit panel | Unit | none | ✅ Automated |
+| `test_auto_then_finalize_then_reopen` | auto then finalize then reopen | Unit | none | ✅ Automated |
+| `test_balanced_policy_rotates_continue_steer_twist` | balanced policy rotates continue steer twist | Unit | none | ✅ Automated |
+| `test_branch_none_means_the_active_branch` | branch none means the active branch | Unit | none | ✅ Automated |
+| `test_branches_round_trip` | branches round trip | Unit | none | ✅ Automated |
+| `test_cli_approve_and_history_undo_redo` | cli approve and history undo redo | Unit | none | ✅ Automated |
+| `test_cli_auto_one_step_and_bad_policy` | cli auto one step and bad policy | Unit | none | ✅ Automated |
+| `test_cli_branch_argument_and_confirmation_rules` | cli branch argument and confirmation rules | Unit | none | ✅ Automated |
+| `test_cli_branch_delete_asks_and_deletes_on_yes` | cli branch delete asks and deletes on yes | Unit | none | ✅ Automated |
+| `test_cli_errors_json_problem_object_and_exit_codes` | cli errors json problem object and exit codes | Unit | none | ✅ Automated |
+| `test_cli_finalize_human_output` | cli finalize human output | Unit | none | ✅ Automated |
+| `test_cli_finalize_json_and_human` | cli finalize json and human | Unit | none | ✅ Automated |
+| `test_cli_new_human_output_shows_the_bible` | cli new human output shows the bible | Unit | none | ✅ Automated |
+| `test_cli_new_without_narrative_or_with_image_is_a_usage_error` | cli new without narrative or with image is a usage error | Unit | none | ✅ Automated |
+| `test_cli_strip_needs_exactly_one_of_pick_and_beat` | cli strip needs exactly one of pick and beat | Unit | none | ✅ Automated |
+| `test_cli_undo_and_redo_with_nothing_to_do` | cli undo and redo with nothing to do | Unit | none | ✅ Automated |
+| `test_create_project_duplicate_name_keeps_the_first` | create project duplicate name keeps the first | Unit | none | ✅ Automated |
+| `test_create_project_generates_and_saves_the_bible` | create project generates and saves the bible | Unit | none | ✅ Automated |
+| `test_create_project_needs_a_narrative_and_rejects_images_for_now` | create project needs a narrative and rejects images for now | Unit | none | ✅ Automated |
+| `test_create_project_removes_the_folder_when_the_bible_fails` | create project removes the folder when the bible fails | Unit | none | ✅ Automated |
+| `test_ctx_missing_backend_is_typed_error` | ctx missing backend is typed error | Unit | none | ✅ Automated |
+| `test_ctx_opens_project_and_provides_helpers` | ctx opens project and provides helpers | Unit | none | ✅ Automated |
+| `test_ctx_providers_are_lazy_and_use_factory` | ctx providers are lazy and use factory | Unit | none | ✅ Automated |
+| `test_ctx_unknown_project_raises` | ctx unknown project raises | Unit | none | ✅ Automated |
+| `test_edit_bible_is_undoable` | edit bible is undoable | Unit | none | ✅ Automated |
+| `test_end_is_picked_when_offered_and_this_strip_reaches_target` | end is picked when offered and this strip reaches target | Unit | none | ✅ Automated |
+| `test_end_pick_closes_the_story_at_target` | end pick closes the story at target | Unit | none | ✅ Automated |
+| `test_ensure_registered_keeps_a_test_override` | ensure registered keeps a test override | Unit | none | ✅ Automated |
+| `test_fake_provider_registers_its_answers_after_clear` | fake provider registers its answers after clear | Unit | none | ✅ Automated |
+| `test_get_bible_unknown_project` | get bible unknown project | Unit | none | ✅ Automated |
+| `test_ids_injected_clock_and_random_are_deterministic` | ids injected clock and random are deterministic | Unit | none | ✅ Automated |
+| `test_ids_monotonic_within_same_millisecond` | ids monotonic within same millisecond | Unit | none | ✅ Automated |
+| `test_ids_prefix_validation_and_table` | ids prefix validation and table | Unit | none | ✅ Automated |
+| `test_ids_shape_and_alphabet` | ids shape and alphabet | Unit | none | ✅ Automated |
+| `test_ids_sort_by_time` | ids sort by time | Unit | none | ✅ Automated |
+| `test_llm_anthropic_builds_client_with_key_and_no_sdk_retries` | llm anthropic builds client with key and no sdk retries | Unit | none | ✅ Automated |
+| `test_llm_anthropic_corrective_retry_then_failure` | llm anthropic corrective retry then failure | Unit | none | ✅ Automated |
+| `test_llm_anthropic_find_api_key_env_then_keyring` | llm anthropic find api key env then keyring | Unit | none | ✅ Automated |
+| `test_llm_anthropic_no_tool_call_is_invalid_reply` | llm anthropic no tool call is invalid reply | Unit | none | ✅ Automated |
+| `test_llm_anthropic_preflight_reports_missing_sdk_and_key` | llm anthropic preflight reports missing sdk and key | Unit | none | ✅ Automated |
+| `test_llm_anthropic_timeout_and_client_errors` | llm anthropic timeout and client errors | Unit | none | ✅ Automated |
+| `test_llm_anthropic_transient_errors_retry_once` | llm anthropic transient errors retry once | Unit | none | ✅ Automated |
+| `test_llm_anthropic_unknown_exceptions_propagate` | llm anthropic unknown exceptions propagate | Unit | none | ✅ Automated |
+| `test_llm_doctor_check_invalid_provider_string_is_reported_not_raised` | llm doctor check invalid provider string is reported not raised | Unit | none | ✅ Automated |
+| `test_llm_doctor_check_ollama_ok_missing_and_down` | llm doctor check ollama ok missing and down | Unit | none | ✅ Automated |
+| `test_llm_doctor_checks_registered_and_fake_is_not_required` | llm doctor checks registered and fake is not required | Unit | none | ✅ Automated |
+| `test_llm_fake_corrupt_fixture_is_an_invalid_reply` | llm fake corrupt fixture is an invalid reply | Unit | none | ✅ Automated |
+| `test_llm_fake_embeddings_are_deterministic_unit_vectors` | llm fake embeddings are deterministic unit vectors | Unit | none | ✅ Automated |
+| `test_llm_fake_embeddings_shared_words_score_higher` | llm fake embeddings shared words score higher | Unit | none | ✅ Automated |
+| `test_llm_fake_no_responder_for_marker_or_without_marker_raises` | llm fake no responder for marker or without marker raises | Unit | none | ✅ Automated |
+| `test_llm_fake_responder_exact_version_wins_over_name` | llm fake responder exact version wins over name | Unit | none | ✅ Automated |
+| `test_llm_fake_responder_invalid_first_reply_gets_corrective_retry` | llm fake responder invalid first reply gets corrective retry | Unit | none | ✅ Automated |
+| `test_llm_fake_responder_selected_by_template_marker_and_call_index` | llm fake responder selected by template marker and call index | Unit | none | ✅ Automated |
+| `test_llm_fixtures_dir_resolution_order` | llm fixtures dir resolution order | Unit | none | ✅ Automated |
+| `test_llm_get_embeddings_builds_each_kind_and_rejects_anthropic` | llm get embeddings builds each kind and rejects anthropic | Unit | none | ✅ Automated |
+| `test_llm_get_llm_builds_each_kind` | llm get llm builds each kind | Unit | none | ✅ Automated |
+| `test_llm_non_retryable_4xx_surfaces_without_retry` | llm non retryable 4xx surfaces without retry | Unit | none | ✅ Automated |
+| `test_llm_ollama_embeddings_count_mismatch_raises` | llm ollama embeddings count mismatch raises | Unit | none | ✅ Automated |
+| `test_llm_ollama_embeddings_posts_input_list_and_normalizes` | llm ollama embeddings posts input list and normalizes | Unit | none | ✅ Automated |
+| `test_llm_ollama_missing_content_counts_as_invalid_reply` | llm ollama missing content counts as invalid reply | Unit | none | ✅ Automated |
+| `test_llm_ollama_omits_seed_when_none_and_strips_think_block` | llm ollama omits seed when none and strips think block | Unit | none | ✅ Automated |
+| `test_llm_ollama_preflight_model_present_missing_and_unreachable` | llm ollama preflight model present missing and unreachable | Unit | none | ✅ Automated |
+| `test_llm_ollama_unknown_model_maps_to_model_missing` | llm ollama unknown model maps to model missing | Unit | none | ✅ Automated |
+| `test_llm_openai_compat_embeddings_count_mismatch_raises` | llm openai compat embeddings count mismatch raises | Unit | none | ✅ Automated |
+| `test_llm_openai_compat_embeddings_ordered_by_index_and_normalized` | llm openai compat embeddings ordered by index and normalized | Unit | none | ✅ Automated |
+| `test_llm_openai_compat_empty_choices_is_invalid_reply` | llm openai compat empty choices is invalid reply | Unit | none | ✅ Automated |
+| `test_llm_openai_compat_no_auth_header_without_key` | llm openai compat no auth header without key | Unit | none | ✅ Automated |
+| `test_llm_openai_compat_preflight` | llm openai compat preflight | Unit | none | ✅ Automated |
+| `test_llm_openai_compat_url_comes_from_settings_or_errors` | llm openai compat url comes from settings or errors | Unit | none | ✅ Automated |
+| `test_llm_prompt_bad_or_unknown_name_raises` | llm prompt bad or unknown name raises | Unit | none | ✅ Automated |
+| `test_llm_prompt_hash_is_canonical_and_input_sensitive` | llm prompt hash is canonical and input sensitive | Unit | none | ✅ Automated |
+| `test_llm_prompt_loads_front_matter_and_key` | llm prompt loads front matter and key | Unit | none | ✅ Automated |
+| `test_llm_prompt_malformed_files_raise` | llm prompt malformed files raise | Unit | none | ✅ Automated |
+| `test_llm_prompt_missing_variable_raises` | llm prompt missing variable raises | Unit | none | ✅ Automated |
+| `test_llm_prompt_system_renders_marker_vars_and_audience_rules` | llm prompt system renders marker vars and audience rules | Unit | none | ✅ Automated |
+| `test_llm_prompt_variable_values_are_not_re_expanded` | llm prompt variable values are not re expanded | Unit | none | ✅ Automated |
+| `test_llm_provider_string_invalid_raises` | llm provider string invalid raises | Unit | none | ✅ Automated |
+| `test_llm_record_script_list_and_argument_errors` | llm record script list and argument errors | Unit | none | ✅ Automated |
+| `test_llm_record_script_records_selftest_scenario` | llm record script records selftest scenario | Unit | none | ✅ Automated |
+| `test_llm_recording_wrapper_writes_replayable_fixture` | llm recording wrapper writes replayable fixture | Unit | none | ✅ Automated |
+| `test_llm_retry_gives_up_after_two_attempts_on_429_and_transport_errors` | llm retry gives up after two attempts on 429 and transport errors | Unit | none | ✅ Automated |
+| `test_llm_template_of_parses_marker` | llm template of parses marker | Unit | none | ✅ Automated |
+| `test_llm_usage_counts_corrective_retry_in_one_call` | llm usage counts corrective retry in one call | Unit | none | ✅ Automated |
+| `test_llm_validation_errors_reports_paths_and_non_objects` | llm validation errors reports paths and non objects | Unit | none | ✅ Automated |
+| `test_llm_wrap_untrusted_fences_text` | llm wrap untrusted fences text | Unit | none | ✅ Automated |
+| `test_llm_wrap_untrusted_strips_delimiter_tokens` | llm wrap untrusted strips delimiter tokens | Unit | none | ✅ Automated |
+| `test_make_strip_argument_errors` | make strip argument errors | Unit | none | ✅ Automated |
+| `test_make_strip_free_text_and_panel_count` | make strip free text and panel count | Unit | none | ✅ Automated |
+| `test_parse_assignments_nests_dotted_keys_and_parses_json` | parse assignments nests dotted keys and parses json | Unit | none | ✅ Automated |
+| `test_projects_archive_undo_restores` | projects archive undo restores | Unit | none | ✅ Automated |
+| `test_projects_create_duplicate_slug_refused` | projects create duplicate slug refused | Unit | none | ✅ Automated |
+| `test_projects_create_empty_name_refused` | projects create empty name refused | Unit | none | ✅ Automated |
+| `test_projects_create_invalid_options_leave_no_folder` | projects create invalid options leave no folder | Unit | none | ✅ Automated |
+| `test_projects_create_makes_folder_row_branch_and_metadata` | projects create makes folder row branch and metadata | Unit | none | ✅ Automated |
+| `test_projects_create_uses_default_audience_and_explicit_audience` | projects create uses default audience and explicit audience | Unit | none | ✅ Automated |
+| `test_projects_delete_moves_to_trash` | projects delete moves to trash | Unit | none | ✅ Automated |
+| `test_projects_list_hides_archived_by_default` | projects list hides archived by default | Unit | none | ✅ Automated |
+| `test_projects_rename_changes_name_not_folder_and_undo_restores` | projects rename changes name not folder and undo restores | Unit | none | ✅ Automated |
+| `test_projects_resolve_ambiguous_name_asks_for_id` | projects resolve ambiguous name asks for id | Unit | none | ✅ Automated |
+| `test_projects_resolve_by_slug_name_id_and_path` | projects resolve by slug name id and path | Unit | none | ✅ Automated |
+| `test_projects_update_metadata_merges_and_undoes` | projects update metadata merges and undoes | Unit | none | ✅ Automated |
+| `test_rename_archive_delete_project` | rename archive delete project | Unit | none | ✅ Automated |
+| `test_run_auto_is_undoable` | run auto is undoable | Unit | none | ✅ Automated |
+| `test_run_auto_one_step_and_resume` | run auto one step and resume | Unit | none | ✅ Automated |
+| `test_run_auto_refuses_unapproved_strips_and_missing_bible` | run auto refuses unapproved strips and missing bible | Unit | none | ✅ Automated |
+| `test_run_auto_stops_at_target_and_records_actor_auto` | run auto stops at target and records actor auto | Unit | none | ✅ Automated |
+| `test_safety_audience_rules_defined_for_all_five_audiences` | safety audience rules defined for all five audiences | Unit | none | ✅ Automated |
+| `test_safety_empty_texts_skip_checks_and_unknown_audience_rejected` | safety empty texts skip checks and unknown audience rejected | Unit | none | ✅ Automated |
+| `test_schemas_bible_arc_stages_filled_and_checked` | schemas bible arc stages filled and checked | Unit | none | ✅ Automated |
+| `test_schemas_book_pages_consecutive` | schemas book pages consecutive | Unit | none | ✅ Automated |
+| `test_schemas_character_id_prefix_and_dna_length` | schemas character id prefix and dna length | Unit | none | ✅ Automated |
+| `test_schemas_layout_reading_order_must_be_permutation` | schemas layout reading order must be permutation | Unit | none | ✅ Automated |
+| `test_schemas_lettering_balloon_must_stay_inside_panel` | schemas lettering balloon must stay inside panel | Unit | none | ✅ Automated |
+| `test_schemas_llm_schema_is_inlined_and_plain` | schemas llm schema is inlined and plain | Unit | none | ✅ Automated |
+| `test_schemas_llm_schema_still_validates_documents` | schemas llm schema still validates documents | Unit | none | ✅ Automated |
+| `test_schemas_moderation_verdict_defaults` | schemas moderation verdict defaults | Unit | none | ✅ Automated |
+| `test_schemas_project_info_fields` | schemas project info fields | Unit | none | ✅ Automated |
+| `test_schemas_schema_field_has_default_and_is_fixed` | schemas schema field has default and is fixed | Unit | none | ✅ Automated |
+| `test_schemas_secondary_documents_roundtrip` | schemas secondary documents roundtrip | Unit | none | ✅ Automated |
+| `test_schemas_strip_script_panels_numbered` | schemas strip script panels numbered | Unit | none | ✅ Automated |
+| `test_schemas_style_bad_hex_rejected` | schemas style bad hex rejected | Unit | none | ✅ Automated |
+| `test_schemas_suggestions_require_three_ordered_options` | schemas suggestions require three ordered options | Unit | none | ✅ Automated |
+| `test_schemas_target_strips_bounds` | schemas target strips bounds | Unit | none | ✅ Automated |
+| `test_stale_suggestions_are_refused` | stale suggestions are refused | Unit | none | ✅ Automated |
+| `test_steer_policy_prefers_steer` | steer policy prefers steer | Unit | none | ✅ Automated |
+| `test_story_arc_final_stage_and_target_flag` | story arc final stage and target flag | Unit | none | ✅ Automated |
+| `test_story_arc_requires_bible` | story arc requires bible | Unit | none | ✅ Automated |
+| `test_story_arc_unlisted_stage_from_model_is_corrected` | story arc unlisted stage from model is corrected | Unit | none | ✅ Automated |
+| `test_story_beat_edit_suggestion_rejects_unknown_and_invalid_changes` | story beat edit suggestion rejects unknown and invalid changes | Unit | none | ✅ Automated |
+| `test_story_beat_requires_bible_and_passes_guards` | story beat requires bible and passes guards | Unit | none | ✅ Automated |
+| `test_story_bible_cast_hints_are_used_as_given` | story bible cast hints are used as given | Unit | none | ✅ Automated |
+| `test_story_bible_duplicate_names_get_unique_ids` | story bible duplicate names get unique ids | Unit | none | ✅ Automated |
+| `test_story_bible_edit_errors_and_template_change` | story bible edit errors and template change | Unit | none | ✅ Automated |
+| `test_story_bible_empty_or_long_narrative_rejected` | story bible empty or long narrative rejected | Unit | none | ✅ Automated |
+| `test_story_bible_fit_characters_keeps_known_ids` | story bible fit characters keeps known ids | Unit | none | ✅ Automated |
+| `test_story_bible_undo_first_version_removes_bible` | story bible undo first version removes bible | Unit | none | ✅ Automated |
+| `test_story_branch_delete_branch_with_story_rejected` | story branch delete branch with story rejected | Unit | none | ✅ Automated |
+| `test_story_branch_delete_with_children_or_story_rejected` | story branch delete with children or story rejected | Unit | none | ✅ Automated |
+| `test_story_finalize_fake_provider_end_to_end` | story finalize fake provider end to end | Unit | none | ✅ Automated |
+| `test_story_finalize_needs_strips_and_bible` | story finalize needs strips and bible | Unit | none | ✅ Automated |
+| `test_story_strips_approve_requires_lettered_when_asked` | story strips approve requires lettered when asked | Unit | none | ✅ Automated |
+| `test_story_strips_approve_runs_arc_and_locks_edits_until_unapprove` | story strips approve runs arc and locks edits until unapprove | Unit | none | ✅ Automated |
+| `test_story_strips_approve_undo_returns_to_scripted` | story strips approve undo returns to scripted | Unit | none | ✅ Automated |
+| `test_story_strips_create_is_undoable` | story strips create is undoable | Unit | none | ✅ Automated |
+| `test_story_strips_create_stores_scripted_strip_and_panels` | story strips create stores scripted strip and panels | Unit | none | ✅ Automated |
+| `test_story_strips_edit_is_undoable_and_restores_stale` | story strips edit is undoable and restores stale | Unit | none | ✅ Automated |
+| `test_story_strips_edit_rejects_invalid_and_foreign_cast` | story strips edit rejects invalid and foreign cast | Unit | none | ✅ Automated |
+| `test_story_strips_edit_visual_marks_stale_text_does_not` | story strips edit visual marks stale text does not | Unit | none | ✅ Automated |
+| `test_story_strips_failed_generation_leaves_no_rows` | story strips failed generation leaves no rows | Unit | none | ✅ Automated |
+| `test_story_strips_pick_recorded_and_undone` | story strips pick recorded and undone | Unit | none | ✅ Automated |
+| `test_story_strips_resolve_by_index_or_id_and_errors` | story strips resolve by index or id and errors | Unit | none | ✅ Automated |
+| `test_story_suggest_end_here_fallback_when_model_omits_it` | story suggest end here fallback when model omits it | Unit | none | ✅ Automated |
+| `test_story_suggest_follows_branch_parent_chain` | story suggest follows branch parent chain | Unit | none | ✅ Automated |
+| `test_story_suggest_missing_intent_rejected` | story suggest missing intent rejected | Unit | none | ✅ Automated |
+| `test_story_suggest_preconditions_and_moderation` | story suggest preconditions and moderation | Unit | none | ✅ Automated |
+| `test_story_suggest_unknown_ids_and_stage_are_corrected` | story suggest unknown ids and stage are corrected | Unit | none | ✅ Automated |
+| `test_story_writer_fake_provider_end_to_end` | story writer fake provider end to end | Unit | none | ✅ Automated |
+| `test_story_writer_panel_violations_cover_sfx_and_caption` | story writer panel violations cover sfx and caption | Unit | none | ✅ Automated |
+| `test_story_writer_prompt_carries_cast_limits_audience_and_fences_beat` | story writer prompt carries cast limits audience and fences beat | Unit | none | ✅ Automated |
+| `test_story_writer_requires_bible` | story writer requires bible | Unit | none | ✅ Automated |
+| `test_suggest_then_pick_writes_a_script_only_strip` | suggest then pick writes a script only strip | Unit | none | ✅ Automated |
+| `test_twist_policy_prefers_twist` | twist policy prefers twist | Unit | none | ✅ Automated |
+| `test_undo_redo_history` | undo redo history | Unit | none | ✅ Automated |
+| `test_undo_with_nothing_to_undo_returns_none` | undo with nothing to undo returns none | Unit | none | ✅ Automated |
+| `test_unknown_policy_is_a_usage_error` | unknown policy is a usage error | Unit | none | ✅ Automated |
+| `e2e_US002_empty_home_prompts_for_story_idea` | US002 empty home prompts for story idea | E2E | none | ✅ Automated |
 
 ---
 

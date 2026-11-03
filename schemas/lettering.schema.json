@@ -1,0 +1,467 @@
+{
+  "$defs": {
+    "Balloon": {
+      "additionalProperties": false,
+      "description": "A speech, thought, shout, or whisper balloon.",
+      "properties": {
+        "font": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Font",
+          "type": "string"
+        },
+        "h": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "H",
+          "type": "number"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "locked": {
+          "default": false,
+          "title": "Locked",
+          "type": "boolean"
+        },
+        "order": {
+          "minimum": 0,
+          "title": "Order",
+          "type": "integer"
+        },
+        "size": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Size",
+          "type": "number"
+        },
+        "tail": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Tail"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DialogueType"
+        },
+        "w": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "W",
+          "type": "number"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "id",
+        "type",
+        "text",
+        "tail",
+        "font",
+        "size",
+        "order"
+      ],
+      "title": "Balloon",
+      "type": "object"
+    },
+    "Box": {
+      "additionalProperties": false,
+      "description": "Rectangle as fractions of the panel, origin top-left (ADR-019).",
+      "properties": {
+        "h": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "H",
+          "type": "number"
+        },
+        "w": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "W",
+          "type": "number"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "title": "Box",
+      "type": "object"
+    },
+    "CaptionBox": {
+      "additionalProperties": false,
+      "description": "A narration box.",
+      "properties": {
+        "font": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Font",
+          "type": "string"
+        },
+        "h": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "H",
+          "type": "number"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "order": {
+          "minimum": 0,
+          "title": "Order",
+          "type": "integer"
+        },
+        "size": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Size",
+          "type": "number"
+        },
+        "text": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "w": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "W",
+          "type": "number"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "id",
+        "text",
+        "font",
+        "size",
+        "order"
+      ],
+      "title": "CaptionBox",
+      "type": "object"
+    },
+    "CharacterBox": {
+      "additionalProperties": false,
+      "description": "Located character body and head boxes, used to avoid occlusion and aim tails.",
+      "properties": {
+        "character_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Character Id",
+          "type": "string"
+        },
+        "h": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "H",
+          "type": "number"
+        },
+        "head": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Box"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "w": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "W",
+          "type": "number"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "character_id"
+      ],
+      "title": "CharacterBox",
+      "type": "object"
+    },
+    "DialogueType": {
+      "description": "Balloon kinds.",
+      "enum": [
+        "speech",
+        "thought",
+        "shout",
+        "whisper"
+      ],
+      "title": "DialogueType",
+      "type": "string"
+    },
+    "SfxItem": {
+      "additionalProperties": false,
+      "description": "A placed sound effect.",
+      "properties": {
+        "fill": {
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "title": "Fill",
+          "type": "string"
+        },
+        "font": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Font",
+          "type": "string"
+        },
+        "h": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "H",
+          "type": "number"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "near": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Near"
+        },
+        "order": {
+          "minimum": 0,
+          "title": "Order",
+          "type": "integer"
+        },
+        "outline": {
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "title": "Outline",
+          "type": "string"
+        },
+        "rotation": {
+          "maximum": 45,
+          "minimum": -45,
+          "title": "Rotation",
+          "type": "number"
+        },
+        "size": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Size",
+          "type": "number"
+        },
+        "text": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "w": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "W",
+          "type": "number"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "id",
+        "text",
+        "rotation",
+        "font",
+        "size",
+        "fill",
+        "outline",
+        "order"
+      ],
+      "title": "SfxItem",
+      "type": "object"
+    },
+    "Tail": {
+      "additionalProperties": false,
+      "description": "Balloon tail target.",
+      "properties": {
+        "speaker": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Speaker"
+        },
+        "tip_x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Tip X",
+          "type": "number"
+        },
+        "tip_y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Tip Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "tip_x",
+        "tip_y"
+      ],
+      "title": "Tail",
+      "type": "object"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/lettering.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/lettering@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "balloons": {
+      "items": {
+        "$ref": "#/$defs/Balloon"
+      },
+      "title": "Balloons",
+      "type": "array"
+    },
+    "captions": {
+      "items": {
+        "$ref": "#/$defs/CaptionBox"
+      },
+      "title": "Captions",
+      "type": "array"
+    },
+    "character_boxes": {
+      "items": {
+        "$ref": "#/$defs/CharacterBox"
+      },
+      "title": "Character Boxes",
+      "type": "array"
+    },
+    "panel_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Panel Id",
+      "type": "string"
+    },
+    "schema": {
+      "const": "comic-smith/lettering@1",
+      "default": "comic-smith/lettering@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "sfx": {
+      "items": {
+        "$ref": "#/$defs/SfxItem"
+      },
+      "title": "Sfx",
+      "type": "array"
+    }
+  },
+  "required": [
+    "panel_id"
+  ],
+  "title": "LetteringDoc",
+  "type": "object"
+}

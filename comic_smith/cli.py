@@ -9,7 +9,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from comic_smith import __version__, api
+from comic_smith import __version__, api, cli_story
 from comic_smith.errors import ComicSmithError, PreflightError
 from comic_smith.logging import configure_logging
 
@@ -98,6 +98,9 @@ def studio_cmd(
     """Open the Studio in your browser (served on 127.0.0.1 by default)."""
     s = settings(studio_port=port)
     api.run_studio(s, host=host, port=s.studio_port, open_browser=not no_browser)
+
+
+cli_story.register(app, settings)
 
 
 def _print_error(err: ComicSmithError, debug: bool) -> None:

@@ -1,0 +1,260 @@
+{
+  "$defs": {
+    "Arc": {
+      "additionalProperties": false,
+      "description": "Arc template, length, and stage list.",
+      "properties": {
+        "stages": {
+          "items": {
+            "maxLength": 30,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Stages",
+          "type": "array"
+        },
+        "target_strips": {
+          "maximum": 40,
+          "minimum": 1,
+          "title": "Target Strips",
+          "type": "integer"
+        },
+        "template": {
+          "$ref": "#/$defs/ArcTemplate"
+        }
+      },
+      "required": [
+        "template",
+        "target_strips"
+      ],
+      "title": "Arc",
+      "type": "object"
+    },
+    "ArcTemplate": {
+      "description": "Story arc templates (ARCHITECTURE 4.2; `heros-journey-lite` per Sprint 1 decision).",
+      "enum": [
+        "three-act",
+        "heros-journey-lite",
+        "problem-try-try-succeed",
+        "gag-a-day",
+        "mystery"
+      ],
+      "title": "ArcTemplate",
+      "type": "string"
+    },
+    "Audience": {
+      "description": "Who the story is for; drives moderation and lettering limits (FR-013).",
+      "enum": [
+        "all-ages",
+        "kids-5-8",
+        "kids-9-12",
+        "teen",
+        "adult"
+      ],
+      "title": "Audience",
+      "type": "string"
+    },
+    "CastEntry": {
+      "additionalProperties": false,
+      "description": "One character's role in the story; `character_id` must exist in the character table.",
+      "properties": {
+        "character_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Character Id",
+          "type": "string"
+        },
+        "need": {
+          "default": "",
+          "maxLength": 200,
+          "title": "Need",
+          "type": "string"
+        },
+        "role": {
+          "maxLength": 30,
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        },
+        "want": {
+          "default": "",
+          "maxLength": 200,
+          "title": "Want",
+          "type": "string"
+        }
+      },
+      "required": [
+        "character_id",
+        "role"
+      ],
+      "title": "CastEntry",
+      "type": "object"
+    },
+    "OpenThread": {
+      "additionalProperties": false,
+      "description": "A plot thread that has been raised and not yet paid off.",
+      "properties": {
+        "closed_in_strip": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Closed In Strip"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "opened_in_strip": {
+          "minimum": 1,
+          "title": "Opened In Strip",
+          "type": "integer"
+        },
+        "text": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "opened_in_strip"
+      ],
+      "title": "OpenThread",
+      "type": "object"
+    },
+    "Setting": {
+      "additionalProperties": false,
+      "description": "Where and in what world the story happens.",
+      "properties": {
+        "rules": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Rules",
+          "type": "array"
+        },
+        "world": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "World",
+          "type": "string"
+        }
+      },
+      "required": [
+        "world"
+      ],
+      "title": "Setting",
+      "type": "object"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/bible.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/bible@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "arc": {
+      "$ref": "#/$defs/Arc"
+    },
+    "audience": {
+      "$ref": "#/$defs/Audience"
+    },
+    "cast": {
+      "items": {
+        "$ref": "#/$defs/CastEntry"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Cast",
+      "type": "array"
+    },
+    "logline": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Logline",
+      "type": "string"
+    },
+    "open_threads": {
+      "items": {
+        "$ref": "#/$defs/OpenThread"
+      },
+      "title": "Open Threads",
+      "type": "array"
+    },
+    "premise": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Premise",
+      "type": "string"
+    },
+    "schema": {
+      "const": "comic-smith/bible@1",
+      "default": "comic-smith/bible@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "setting": {
+      "$ref": "#/$defs/Setting"
+    },
+    "style_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Style Id",
+      "type": "string"
+    },
+    "themes": {
+      "items": {
+        "maxLength": 60,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Themes",
+      "type": "array"
+    },
+    "tone": {
+      "items": {
+        "maxLength": 30,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 6,
+      "minItems": 1,
+      "title": "Tone",
+      "type": "array"
+    },
+    "working_title": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Working Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "working_title",
+    "logline",
+    "premise",
+    "audience",
+    "tone",
+    "setting",
+    "cast",
+    "arc",
+    "style_id"
+  ],
+  "title": "Bible",
+  "type": "object"
+}

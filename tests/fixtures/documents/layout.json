@@ -1,0 +1,16 @@
+{
+  "schema": "comic-smith/layout@1",
+  "id": "strip-stack",
+  "name": "Strip stack",
+  "sizes": ["us-comic", "us-letter", "a4", "square"],
+  "page_size": null,
+  "margins": {"top": 0.5, "right": 0.5, "bottom": 0.5, "left": 0.5},
+  "gutter": 0.125,
+  "bleed": 0.125,
+  "slots": [
+    {"id": "s1", "x": 0.5, "y": 0.5, "w": 5.625, "h": 2.9, "accepts": "strip", "border": {"style": "solid", "width_pt": 2.0}},
+    {"id": "s2", "x": 0.5, "y": 3.5, "w": 5.625, "h": 2.9, "accepts": "strip", "border": null},
+    {"id": "s3", "x": 0.5, "y": 6.5, "w": 5.625, "h": 2.9, "accepts": "strip", "border": null}
+  ],
+  "reading_order": ["s1", "s2", "s3"]
+}

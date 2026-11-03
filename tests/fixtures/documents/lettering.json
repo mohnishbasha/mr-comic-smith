@@ -1,0 +1,28 @@
+{
+  "schema": "comic-smith/lettering@1",
+  "panel_id": "pn_01J0000000000000000000000A",
+  "balloons": [
+    {"id": "b1", "type": "speech", "text": "Jump in! It's warm!",
+     "x": 0.58, "y": 0.06, "w": 0.34, "h": 0.2,
+     "tail": {"tip_x": 0.72, "tip_y": 0.46, "speaker": "ch_sub"},
+     "font": "comic-neue", "size": 0.045, "order": 1, "locked": false},
+    {"id": "b2", "type": "whisper", "text": "Ducks don't do deep.",
+     "x": 0.08, "y": 0.26, "w": 0.3, "h": 0.16,
+     "tail": {"tip_x": 0.22, "tip_y": 0.52, "speaker": "ch_puddle"},
+     "font": "comic-neue", "size": 0.04, "order": 2, "locked": false}
+  ],
+  "captions": [
+    {"id": "c1", "text": "Meanwhile, at the edge of the tub...",
+     "x": 0.02, "y": 0.02, "w": 0.5, "h": 0.1,
+     "font": "atkinson-hyperlegible", "size": 0.04, "order": 0}
+  ],
+  "sfx": [
+    {"id": "f1", "text": "SPLISH", "x": 0.7, "y": 0.62, "w": 0.25, "h": 0.14,
+     "rotation": -6, "font": "bangers", "size": 0.09, "fill": "#2E86DE", "outline": "#1B1B3A",
+     "near": "ch_sub", "order": 3}
+  ],
+  "character_boxes": [
+    {"character_id": "ch_puddle", "x": 0.05, "y": 0.3, "w": 0.3, "h": 0.6,
+     "head": {"x": 0.12, "y": 0.3, "w": 0.14, "h": 0.14}}
+  ]
+}

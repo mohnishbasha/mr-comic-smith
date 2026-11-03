@@ -1,0 +1,395 @@
+{
+  "$defs": {
+    "Attestation": {
+      "additionalProperties": false,
+      "description": "Person-likeness attestation, required when the reference contains a person (FR-007).",
+      "properties": {
+        "attested_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attested At"
+        },
+        "person_detected": {
+          "title": "Person Detected",
+          "type": "boolean"
+        },
+        "right_to_use_likeness": {
+          "title": "Right To Use Likeness",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "person_detected",
+        "right_to_use_likeness"
+      ],
+      "title": "Attestation",
+      "type": "object"
+    },
+    "CharacterReference": {
+      "additionalProperties": false,
+      "description": "User-editable description extracted from a photo or text (FR-003).",
+      "properties": {
+        "accessories": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Accessories",
+          "type": "array"
+        },
+        "features": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Features",
+          "type": "array"
+        },
+        "palette": {
+          "items": {
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Palette",
+          "type": "array"
+        },
+        "subject": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Subject",
+          "type": "string"
+        }
+      },
+      "required": [
+        "subject",
+        "palette",
+        "features"
+      ],
+      "title": "CharacterReference",
+      "type": "object"
+    },
+    "CharacterSheet": {
+      "additionalProperties": false,
+      "description": "The reference sheet assets.",
+      "properties": {
+        "composed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Composed"
+        },
+        "expressions": {
+          "$ref": "#/$defs/SheetExpressions"
+        },
+        "views": {
+          "$ref": "#/$defs/SheetViews"
+        }
+      },
+      "title": "CharacterSheet",
+      "type": "object"
+    },
+    "CharacterSource": {
+      "description": "How a character was created.",
+      "enum": [
+        "photo",
+        "text",
+        "library"
+      ],
+      "title": "CharacterSource",
+      "type": "string"
+    },
+    "CheckResult": {
+      "description": "Outcome of an originality check.",
+      "enum": [
+        "pass",
+        "blocked",
+        "pending"
+      ],
+      "title": "CheckResult",
+      "type": "string"
+    },
+    "Originality": {
+      "additionalProperties": false,
+      "description": "Originality guard outcome (ADR-013).",
+      "properties": {
+        "checked_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checked At"
+        },
+        "denylist": {
+          "$ref": "#/$defs/CheckResult",
+          "default": "pending"
+        },
+        "resemblance": {
+          "$ref": "#/$defs/CheckResult",
+          "default": "pending"
+        },
+        "rule": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule"
+        }
+      },
+      "title": "Originality",
+      "type": "object"
+    },
+    "SheetExpressions": {
+      "additionalProperties": false,
+      "description": "Asset ids of the six expression images; None until generated.",
+      "properties": {
+        "angry": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Angry"
+        },
+        "happy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Happy"
+        },
+        "neutral": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Neutral"
+        },
+        "sad": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sad"
+        },
+        "scared": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scared"
+        },
+        "surprised": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Surprised"
+        }
+      },
+      "title": "SheetExpressions",
+      "type": "object"
+    },
+    "SheetViews": {
+      "additionalProperties": false,
+      "description": "Asset ids (sha256) of the three turnaround views; None until generated.",
+      "properties": {
+        "front": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Front"
+        },
+        "side": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Side"
+        },
+        "three_quarter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Three Quarter"
+        }
+      },
+      "title": "SheetViews",
+      "type": "object"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/character.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/character@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "approved_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Approved At"
+    },
+    "attestation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Attestation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "pattern": "^ch_",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "originality": {
+      "$ref": "#/$defs/Originality"
+    },
+    "reference": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CharacterReference"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "schema": {
+      "const": "comic-smith/character@1",
+      "default": "comic-smith/character@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "sheet": {
+      "$ref": "#/$defs/CharacterSheet"
+    },
+    "slug": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Slug",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/CharacterSource"
+    },
+    "visual_dna": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 50,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Visual Dna"
+    }
+  },
+  "required": [
+    "id",
+    "slug",
+    "name",
+    "source"
+  ],
+  "title": "Character",
+  "type": "object"
+}

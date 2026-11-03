@@ -667,7 +667,7 @@ The user library (cast and style library, FR-027) lives outside any project in `
 | event.actor | `user`, `auto`, `agent` | `event.actor` |
 | job.status | `queued`, `running`, `done`, `failed`, `cancelled` | `job.status` (the Prompt names `queued`; the rest are added) |
 | asset.origin | `upload`, `render`, `export`, `derived` | `asset.origin` |
-| arc template | `three-act`, `hero's-journey-lite`, `problem-try-try-succeed`, `gag-a-day`, `mystery` | bible `arc.template` |
+| arc template | `three-act`, `heros-journey-lite` **(Sprint 1)**, `problem-try-try-succeed`, `gag-a-day`, `mystery` | bible `arc.template` |
 | suggestion intent | `continue`, `twist`, `steer`, `end` | suggestion option `intent` (the fourth option is `end`, section 5.2) |
 | auto policy | `balanced`, `steer`, `twist` | `auto --policy` |
 | style preset (builtin) | `picture-book-watercolor`, `bold-cartoon`, `manga-ink`, `newspaper-strip`, `soft-3d-clay`, `pixel-art` | `style.id` suffix, `st_<slug with underscores>` |
@@ -723,14 +723,23 @@ Event `type` strings are dotted names. `payload_json` holds the new state or a d
 | Group | Types |
 |---|---|
 | project | `project.created`, `project.renamed`, `project.archived`, `project.settings_changed` |
-| bible | `bible.created`, `bible.edited` (new version), `bible.thread_opened`, `bible.thread_closed`, `bible.arc_advanced` |
+| bible | `bible.created`, `bible.edited` (new version), `bible.thread_opened`, `bible.thread_closed`, `bible.arc_advanced`; **(Sprint 1)** `bible.updated` (sets one version's JSON, or deletes that version when `json` is null; replaces the five types above), `strip.arc_tagged` (sets `strip.arc_stage`) |
 | cast | `character.added`, `character.reference_edited`, `character.sheet_generated`, `character.view_regenerated`, `character.approved`, `character.unapproved`, `character.imported`, `style.created`, `style.selected` |
-| story | `suggestions.generated`, `beat.chosen`, `beat.custom`, `strip.scripted`, `strip.edited`, `strip.approved`, `strip.unapproved`, `branch.created`, `branch.switched`, `branch.deleted`, `story.finalized`, `story.reopened` |
+| story | `suggestions.generated` **(Sprint 1: implemented as `suggestions.created`, inverse `suggestions.discarded`)**, `beat.chosen`, `beat.custom`, `strip.scripted`, `strip.edited`, `strip.approved`, `strip.unapproved`, `branch.created`, `branch.switched`, `branch.deleted`, `story.finalized`, `story.reopened` |
 | panels | `panel.spec_edited`, `panel.marked_stale`, `panel.take_added`, `panel.take_selected`, `panel.edited` (inpaint), `panel.cropped`, `panel.qa_flagged`, `panel.lettering_edited` |
 | pages | `pages.paginated`, `page.layout_changed`, `page.slot_moved`, `page.caption_edited`, `book.page_added`, `book.page_moved`, `book.page_removed`, `book.cover_set`, `book.settings_edited` |
 | export | `export.created` |
 | jobs | `job.enqueued`, `job.finished`, `job.failed`, `job.cancelled` |
 | auto | `auto.started`, `auto.pick`, `auto.stopped` |
+
+**Story core deviations (Sprint 1):**
+- Bible versions use one event, `bible.updated`, payload `{id, project_id, version, json, created_at}`. Saving version N has the inverse "same payload with `json: null`", which deletes version N, so the previous version becomes current again; redo re-inserts it. Threads opened or closed by a strip approval are stored by saving a new bible version (no separate thread events). A bible version is only saved on approval when the thread list changed.
+- The current arc stage is not stored on the bible: it is the `arc_stage` of the latest approved strip on the branch (`story/arc.py: arc_state`). `arc_progress(bible, strips_count, stage=None)` is strips over target without a stage (and always for `gag-a-day`), otherwise the mean of `(stage index + 1) / stage count` and strips over target, clamped to 0..1. Closed threads stay in `open_threads` with `closed_in_strip` set; "open" means `closed_in_strip is null`.
+- `generate_bible` asks the LLM for a `BibleDraft` (no character ids, no arc, no style). Without `cast_hints` it derives provisional ids `ch_<slug of name>`; they are reconciled with the `character` table when characters are created (Sprint 2). The `style_id` comes from project metadata.
+- Suggestion options are normalized after the model answers: options are put in continue, twist, steer order, unknown character ids are dropped (the first cast member is the fallback), and an unlisted `arc_stage` is replaced by the current stage. When the model omits `end_here` at the final stage, a default end option is built. A still-similar set after one regeneration is returned and logged as `distinctness_warning` (the `SuggestionSet` model has no warning field).
+- Temperature 0 calls (arc update, beat normalization, moderation) are not yet cached in `cache_entry` (section 9); no cache module exists yet.
+- Moderation (`story/moderation.py`) runs the denylist first (`cast/denylist.yaml`, `version: 1`, rules `{id, kind, patterns}`, case-insensitive whole-word matching, no override), then the `moderation` prompt. A verdict the model cannot produce in valid form blocks the text (fail closed). Audience rule text lives in `story/prompts/audience_rules.yaml`.
+- Offline answers for `COMIC_SMITH_LLM=fake` are in `story/fake_responses.py`; importing `comic_smith.story` registers them. `clear_fake_responders()` also removes them, so tests call `fake_responses.register_all()` again.
 
 Undo and redo operate on the most recent event with a non-null `inverse_json` whose `undone` flag is 0 (undo) or 1 (redo), restricted to the actor's workspace in classroom mode. A new undoable mutation after an undo discards the redo tail by setting `discarded = 1` on those events **(Sprint 0)**; non-undoable events such as `job.finished` leave the redo tail alone. Redo re-applies the oldest undone event (undo walks newest to oldest). Each undo and redo also appends a marker event, `event.undone` or `event.redone`, with payload `{event_id, via}` and no inverse **(Sprint 0)**. An `inverse_json` is `{"type": <event type>, "payload": {...}}`, an event of a known type applied through the same handler registry **(Sprint 0)**. Undo never deletes assets; it only changes references.
 
@@ -778,7 +787,7 @@ All formats are pydantic v2 models in the code with JSON Schemas generated from 
 | `open_threads` | object[] | no, default `[]` | Each: `id` (string, unique), `text` (string, 1 to 200), `opened_in_strip` (integer >= 1), `closed_in_strip` (integer or null, default null) **(added)**. |
 | `style_id` | string | yes | Must exist in `style` (built-in or project). |
 
-Arc templates and stages **(added)**: `problem-try-try-succeed` = setup, problem, try-1, try-2, dark-moment, success, home; `three-act` = act1-setup, act1-turn, act2-rise, midpoint, act2-fall, act3-climax, resolution; `hero's-journey-lite` = ordinary-world, call, threshold, trials, ordeal, return; `mystery` = hook, clue-1, clue-2, red-herring, reveal, resolution; `gag-a-day` = no stages. Stage lists live in `story/arc.py` data and are validated.
+Arc templates and stages **(added)**: `problem-try-try-succeed` = setup, problem, try-1, try-2, dark-moment, success, home; `three-act` = act1-setup, act1-turn, act2-rise, midpoint, act2-fall, act3-climax, resolution; `heros-journey-lite` **(Sprint 1: apostrophe dropped)** = ordinary-world, call, threshold, trials, ordeal, return; `mystery` = hook, clue-1, clue-2, red-herring, reveal, resolution; `gag-a-day` = no stages. Stage lists live in `story/arc.py` data and are validated.
 
 ### 5.2 Plot Suggestion set (`comic-smith/suggestions@1`)
 
@@ -1139,6 +1148,24 @@ This document **adds** four more schemas for formats that cross module or proces
 
 Versioning rules for schemas (Versioning section): a breaking change (removing or retyping a field, tightening an enum) is a MAJOR release and bumps the `@N` suffix; adding an optional field with a default is a MINOR change. Readers accept the current and previous `@N` through a migration function until the next MAJOR.
 
+
+#### Implementation notes **(Sprint 1)**
+
+- Python models live in the package `comic_smith/models/`; the `schema` marker is the attribute `schema_id` (alias `schema`) because `BaseModel.schema` is a deprecated pydantic method. Models forbid unknown keys.
+- `Arc.stages` is optional on input; when omitted it is filled from the template (`ARC_STAGES`), and a list that differs from the template is rejected.
+- `StripScript` (1 to 6 `PanelSpec`, `idx` 1..n) and `ArcDiff` (`threads_opened` texts, `threads_closed` ids, `stage`) and `ModerationVerdict` are LLM-facing helper models without a `schema` field and are not published.
+- `comic_smith.models.llm_schema(Model)` inlines `$ref`/`$defs`, drops `title`/`default`, turns `const` into a one-value `enum`, and removes the `schema` property for Ollama and OpenAI structured outputs.
+- `Beat.original_text`, `Character.reference`, `SuggestionOption` fields marked "required" with null allowed keep a `None` default where noted in the model; `SuggestionSet.after_strip` and `end_here` have no default.
+- Layout `reading_order` must be a permutation of slot ids; balloon, caption, sfx, and character boxes must fit inside the panel.
+- Id prefixes follow the comments in section 4.1 (`sp_` strip, `pn_` panel, `ss_` suggestion set, `sy_` story, `ex_` export, `jb_` job, `st_` style); see `comic_smith/ids.py`.
+- `project.style_id` stays NULL until the style row exists (built-in styles are seeded later); the requested id is kept in `metadata_json.style_id`. `project.renamed` changes the display name only; the folder slug is stable. New events: `project.settings_changed` payload `{project_id, set, unset}`.
+- **(Sprint 1) Writer, strips, branches, finalize** (`comic_smith/story/{writer,strips,branches,finalize}.py`):
+  - Audience limits (words per balloon, balloons per panel, words per strip counting dialogue and captions): `kids-5-8` 10/2/60, `kids-9-12` 18/3/110, `all-ages` 20/3/130, `teen` 25/4/170, `adult` 30/4/220. A script must have exactly the requested panel count, cast-only speakers, characters and sfx `near`, no run of three equal shots, and a non-`none` `balloon_space` on any panel with text. One corrective retry lists the violations; the second failure raises `GenerationInvalidError` (exit 5).
+  - New or changed event types (all undoable): `strip.created` (inverse `strip.removed`), `panel.spec_edited` (payload carries the new `stale` flag, so `panel.marked_stale` is not a separate event), `strip.approved` / `strip.unapproved`, `branch.created`, `branch.deleted` (inverse `branch.restored`, which rebuilds the branch with its own strips and panels), `branch.switched`, `branch.renamed`, `story.finalized` (upsert of the story row; inverse restores the previous state or `story.removed`), `story.reopened`. `strip.scripted` and `strip.edited` from the table are replaced by `strip.created` and `panel.spec_edited`.
+  - `strip.idx` is the strip's 1-based position in any branch listing containing it; a branch lists its parent's strips up to `fork_strip_id` and then its own. A branch that still has child branches, is active, or has a story cannot be deleted. Unapproving returns a strip to `scripted`.
+  - Finalize: `finalize.review` makes two LLM calls (continuity at temperature 0, titles at 0.8); issues pointing at a missing strip or unknown character are dropped. A story is locked when the latest `story.version` of a branch has `finalized_at`; any strip on a locked branch (including strips a locked branch inherits) rejects edits with `ImmutableEntityError`. Reopen inserts version n+1 (unlocked, same title and blurb); finalizing again updates that row.
+  - `create_strip` calls the LLM before opening its write transaction, so a generation failure leaves no rows.
+
 ---
 
 ## 6. Pipelines
@@ -1249,18 +1276,20 @@ Binary: `mr-comic-smith` (console script of the `mr-comic-smith` package). All c
 
 | Command | Flags (default) | Notes |
 |---|---|---|
-| `new <name>` | `--narrative "..."` (none; 1 to 5,000 chars), `--image FILE` (repeatable, 0 to 4; none), `--style ID` (`picture-book-watercolor`), `--audience AUD` (`COMIC_SMITH_DEFAULT_AUDIENCE`, `all-ages`), `--strips N` (`8`; 1 to 40), `--arc TEMPLATE` (`problem-try-try-succeed` for `kids-*` audiences, else `three-act`) | At least one of `--narrative` or `--image` is required (else exit 2). Runs seed to cast steps 1 to 7 and leaves characters awaiting approval. |
+| `new <name>` | `--narrative "..."` (none; 1 to 5,000 chars), `--image FILE` (repeatable, 0 to 4; none), `--style ID` (`picture-book-watercolor`), `--audience AUD` (`COMIC_SMITH_DEFAULT_AUDIENCE`, `all-ages`), `--strips N` (`8`; 1 to 40), `--arc TEMPLATE` (`problem-try-try-succeed` for `kids-*` audiences, else `three-act`) | At least one of `--narrative` or `--image` is required (else exit 2). Runs seed to cast steps 1 to 7 and leaves characters awaiting approval. **(Sprint 1: only `--narrative` works; it generates and saves the bible. `--image` exits 2 with a hint until Sprint 2. `--json` prints the project record.)** |
 | `cast add <project>` | `--image FILE` (required unless `--description`), `--description TEXT` (none) **(added, FR-005)**, `--name NAME` (vision-suggested), `--attest-person` (off) | Without `--attest-person`, a person in the image blocks with exit 4. |
 | `cast sheet <project> <character>` | `--regenerate views` (off; value is a comma list of `front,side,three_quarter,neutral,happy,sad,surprised,angry,scared`, or `all`) | Generates or regenerates sheet views; `cast approve <project> <character>` **(added)** approves. |
-| `bible <project>` | `--edit` (off; opens `$EDITOR` on the JSON and validates on save) | Without `--edit`, prints the bible (JSON with `--json`). Each save creates a new version. |
-| `suggest <project>` | `--branch NAME` (`main`), `--json` (off) | Prints the three options (plus `end`). |
-| `strip <project>` | `--pick 1\|2\|3\|end` or `--beat "free text"` (exactly one required), `--panels N` (`4`; 1 to 6), `--branch NAME` (`main`) **(added)**, `--set ID` (latest suggestion set) **(added)** | Writes the strip script only; use `render` next. |
+| `bible <project>` | `--set KEY=VALUE` (repeatable; dotted keys nest, e.g. `arc.target_strips=6`; VALUE is parsed as JSON, else kept as text) **(Sprint 1; replaces the `$EDITOR` flow, which stays planned)**, `--json` (off) | Without `--set`, prints the bible (JSON with `--json`). Each `--set` run saves one new, undoable version. |
+| `suggest <project>` | `--branch NAME` (the active branch, `main` by default), `--json` (off) | Prints the three options (plus `end`). |
+| `strip <project>` | `--pick 1\|2\|3\|end` or `--beat "free text"` (exactly one required), `--panels N` (`4`; 1 to 6), `--branch NAME` (the active branch) **(added)**, `--set ID` (latest suggestion set) **(added)**, `--json` (off) | Writes the strip script only; use `render` next. Prints the panel specs; a pick made after a strip was approved needs a fresh `suggest` (exit 5). |
+| `strips <project>` **(added)** | `--branch NAME` (active), `--json` | Lists the branch's strips. |
 | `render <project>` | `--strip N` (latest unapproved strip), `--panel M` (all stale or unrendered panels in the strip), `--takes N` (`2`), `--backend ID` (`COMIC_SMITH_IMAGE_BACKEND`) | Blocks until jobs finish; progress to stderr. |
 | `letter <project>` | `--strip N` (required), `--auto` (off; run auto placement and overwrite non-locked lettering) | Without `--auto`, opens the JSON for edit like `bible --edit`. |
-| `approve <project>` | `--strip N` (required) | Fails if any panel is unrendered or unlettered (exit 5 for missing prerequisites). |
-| `branch <project> create\|switch\|list\|delete` | `create NAME [--from-strip N]`, `switch NAME`, `list`, `delete NAME [--yes]` | `create` defaults to forking from the latest approved strip. |
-| `auto <project>` | `--policy balanced\|steer\|twist` (`balanced`), `--until-target` (on; stop when the bible's `target_strips` is reached, never finalize) | Never finalizes; every pick is an `auto.pick` event. |
-| `finalize <project>` | `--branch NAME` (active branch), `--title "..."` (chosen from suggestions), `--yes` (off; finalize despite open issues) **(added)** | Prints the Continuity report. |
+| `approve <project>` | `--strip N` (required), `--branch NAME` (active) **(added)**, `--json` | From Sprint 3 fails if any panel is unrendered or unlettered (exit 5 for missing prerequisites); in Sprint 1 a scripted strip can be approved. |
+| `branch <project> create\|switch\|list\|delete\|rename` | `create NAME [--from-strip N] [--switch]`, `switch NAME`, `list`, `delete NAME [--yes]`, `rename OLD NEW` **(rename, --switch added)**, `--json` | `create` defaults to forking from the latest approved strip. `delete` asks unless `--yes`; with `--json` it requires `--yes`. |
+| `auto <project>` | `--policy balanced\|steer\|twist` (`balanced`), `--until-target/--one-step` (`--until-target`; stop when the bible's `target_strips` is reached, never finalize; `--one-step` writes one strip), `--branch NAME` (active), `--json` | Never finalizes; every pick is an `auto.pick` event. Script-only until Sprint 3. Picks are deterministic: balanced rotates continue, steer, twist; steer and twist repeat their intent twice per three strips with a continue between; the end option is taken when offered and the strip reaches the target. All calls run at temperature 0 with actor `auto`. Refuses (exit 5) if the branch has strips waiting for approval. |
+| `finalize <project>` | `--branch NAME` (active branch), `--title "..."` (chosen from suggestions), `--force` or `--yes` (off; finalize despite open issues) **(added)**, `--json` | Open issues without `--force` exit 5 with the report in the error detail. |
+| `undo <project>`, `redo <project>`, `history <project> [--limit N]` **(added)** | `--json` | Undo or redo the latest change (prints nothing to do when empty); history lists recent events. |
 | `pages <project>` | `--layout ID` (`strip-stack`), `--size KEY` (`us-comic`), `--allow-split` (off) **(added)** | Paginates the finalized story. |
 | `book <project> add-page\|move\|remove\|cover\|show ...` | `add-page --kind KIND [--layout ID]`, `move PAGE --to N`, `remove PAGE [--yes]`, `cover [--from-panel ID] [--generate]`, `show` | `show` prints the book manifest (`comic-smith/book@1`). |
 | `export <project>` | `--target page\|story\|book` (required), `--format png\|jpg\|webp\|pdf\|cbz\|web\|strip` (required), `--dpi 72\|150\|300` (`150`), `--print` (off; PDF with bleed and optional trim marks), `--single-file` (off; web), `--out DIR` (`./exports`), `--id ID` (required when target is `page`) **(added)** | Format and target compatibility: `strip` applies to `story`; `cbz` and `web` to `story` or `book`. |
@@ -1392,6 +1421,8 @@ def doctor(*, fix: bool = False) -> DoctorReport: ...
 def gc(project: str, *, dry_run: bool = False) -> dict[str, int]: ...
 def models_pull(name: str, *, comfyui_models: Path) -> None: ...
 ```
+
+Sprint 1 notes: story functions take keyword-only `settings`, `llm`, and `embeddings` (tests inject fakes) and return pydantic models (`Bible`, `SuggestionSet`, `StripDetail`, `BranchInfo`, `StoryInfo`, `EventInfo`). `branch` defaults to the active branch (`None`), which is `main` until a switch. `make_strip` picks `1|2|3|"end"` from the newest suggestion set on the branch (it must follow the last approved strip) or normalizes free text. `create_project` requires a narrative until Sprint 2 and removes the new folder if the bible fails. `run_auto` takes an optional `on_strip` callback and returns the strips it wrote.
 
 Rules: functions never print or exit; raise `ComicSmithError`; accept ids or human references (strip index, slug); mutations are atomic with their event.
 
@@ -2044,6 +2075,13 @@ The Prompt (Implementation Note 9) requires that before each backend is written,
 
 #### qwen3 14B via Ollama (story engine)
 
+**Ollama API (verified Sprint 1, 2026-11-02, Ollama 0.18.2):**
+- Structured output: `POST /api/chat` with `"format": <JSON schema>`, `"stream": false`, and `options.temperature` / `options.seed`. The reply is JSON text in `message.content`; token counts are `prompt_eval_count` and `eval_count`.
+- `"think": false` (top-level field, not inside `options`) disables qwen3 reasoning and is accepted by 0.18; the adapter also strips any `<think>` block defensively.
+- Embeddings: `POST /api/embed` with `{"model", "input": [..]}` returns `{"embeddings": [[..]]}` (the older `/api/embeddings` takes a single `prompt` and is not used). Vectors are L2-normalized by the adapter.
+- An unknown model returns HTTP 404 with `model "<tag>" not found`; the adapter maps it to `ModelMissingError`. Preflight uses `GET /api/tags`; a bare name matches `name:latest`.
+- Integration test `it_ollama_tiny_model_returns_schema_valid_json` passed with `qwen3:0.6b`. `nomic-embed-text` was not installed on the verification machine, so its embedding path is covered by respx tests only.
+
 | Attribute | Expected | Verify at implementation time | Status |
 |---|---|---|---|
 | Role | Story engine (bible, suggestions, writer, finalize) | Structured-output quality on the schemas; "thinking" mode behavior; suggestions under 10 s on a local 14B model (NFR-003) | Not yet verified |
@@ -2113,9 +2151,9 @@ These are not decided. Each is resolved by a Spec Change Protocol PR that update
 |---|---|---|---|
 | 1 | What does `{version}` in `project.db.bak-{version}` mean: the pre-migration `schema_version` or the app release version? | Pre-migration `schema_version` (section 4.3) | Sprint 0 (S0-T06) |
 | 2 | Is exit code 1 documented as "unexpected internal error"? The Prompt's table starts at 0 then 2. | Reserved for `internal_error`, not in the public table (section 7.1) | Sprint 0 |
-| 3 | Arc template id `hero's-journey-lite` contains an apostrophe; should the id be normalized to `heros-journey-lite` for CLI and URLs? | Kept exactly as in the Prompt | Sprint 1 |
-| 4 | Are the four added schemas (`style`, `beat`, `continuity`, `lettering`) published under `schemas/` as proposed? | Yes (section 5.10) | Sprint 1 |
-| 5 | Enums for `shot`, `angle`, `position`, `facing` in the Panel Spec | Values listed in section 5.3 | Sprint 1 (S1-T02) |
+| 3 | Arc template id `hero's-journey-lite` contains an apostrophe; should the id be normalized to `heros-journey-lite` for CLI and URLs? | Resolved in Sprint 1: normalized to `heros-journey-lite` (no apostrophe) in code, schemas, CLI, and URLs | Sprint 1 |
+| 4 | Are the four added schemas (`style`, `beat`, `continuity`, `lettering`) published under `schemas/` as proposed? | Yes (section 5.10); resolved in Sprint 1, all ten are exported by `scripts/export-schemas.py` | Sprint 1 |
+| 5 | Enums for `shot`, `angle`, `position`, `facing` in the Panel Spec | Values listed in section 5.3; resolved in Sprint 1 as `comic_smith.models` enums (`Shot`, `Angle`, `Position`, `Facing`) | Sprint 1 (S1-T02) |
 | 6 | Internal layout ids for cover, title, dedication, cast, and back pages (`cover-full`, `title-center`, `dedication-center`, `cast-grid`, `back-simple`) | As listed in section 5.9 | Sprint 4 |
 | 7 | Health endpoints at both `/healthz` and `/v1/healthz` (ADR-020) versus only one | Both | Sprint 7 (S7-T01) |
 | 8 | Embedding similarity threshold 0.85 is from the PRD; does it hold for `nomic-embed-text` on short beat strings? | 0.85, one regenerate | Sprint 1 (S1-T05) |

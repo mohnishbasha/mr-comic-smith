@@ -1,0 +1,257 @@
+{
+  "$defs": {
+    "Border": {
+      "additionalProperties": false,
+      "description": "Slot border.",
+      "properties": {
+        "style": {
+          "$ref": "#/$defs/BorderStyle",
+          "default": "solid"
+        },
+        "width_pt": {
+          "default": 2.0,
+          "minimum": 0,
+          "title": "Width Pt",
+          "type": "number"
+        }
+      },
+      "title": "Border",
+      "type": "object"
+    },
+    "BorderStyle": {
+      "description": "Slot border styles.",
+      "enum": [
+        "solid",
+        "none",
+        "dashed"
+      ],
+      "title": "BorderStyle",
+      "type": "string"
+    },
+    "CustomPageSize": {
+      "additionalProperties": false,
+      "description": "Override for custom page sizes.",
+      "properties": {
+        "h": {
+          "exclusiveMinimum": 0,
+          "title": "H",
+          "type": "number"
+        },
+        "unit": {
+          "const": "in",
+          "default": "in",
+          "title": "Unit",
+          "type": "string"
+        },
+        "w": {
+          "exclusiveMinimum": 0,
+          "title": "W",
+          "type": "number"
+        }
+      },
+      "required": [
+        "w",
+        "h"
+      ],
+      "title": "CustomPageSize",
+      "type": "object"
+    },
+    "Margins": {
+      "additionalProperties": false,
+      "description": "Page margins in the template's units (inches by default).",
+      "properties": {
+        "bottom": {
+          "minimum": 0,
+          "title": "Bottom",
+          "type": "number"
+        },
+        "left": {
+          "minimum": 0,
+          "title": "Left",
+          "type": "number"
+        },
+        "right": {
+          "minimum": 0,
+          "title": "Right",
+          "type": "number"
+        },
+        "top": {
+          "minimum": 0,
+          "title": "Top",
+          "type": "number"
+        }
+      },
+      "required": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "title": "Margins",
+      "type": "object"
+    },
+    "PageSize": {
+      "description": "Page size keys (ARCHITECTURE 4.2).",
+      "enum": [
+        "us-comic",
+        "us-letter",
+        "a4",
+        "square",
+        "web"
+      ],
+      "title": "PageSize",
+      "type": "string"
+    },
+    "Slot": {
+      "additionalProperties": false,
+      "description": "A rectangle on the page.",
+      "properties": {
+        "accepts": {
+          "$ref": "#/$defs/SlotAccepts"
+        },
+        "border": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Border"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "h": {
+          "exclusiveMinimum": 0,
+          "title": "H",
+          "type": "number"
+        },
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "w": {
+          "exclusiveMinimum": 0,
+          "title": "W",
+          "type": "number"
+        },
+        "x": {
+          "minimum": 0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "minimum": 0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "w",
+        "h",
+        "accepts"
+      ],
+      "title": "Slot",
+      "type": "object"
+    },
+    "SlotAccepts": {
+      "description": "What a layout slot can hold.",
+      "enum": [
+        "panel",
+        "strip"
+      ],
+      "title": "SlotAccepts",
+      "type": "string"
+    }
+  },
+  "$id": "https://getcomicsmith.com/schemas/layout.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "comic-smith/layout@1: generated from the pydantic models, do not edit.",
+  "properties": {
+    "bleed": {
+      "minimum": 0,
+      "title": "Bleed",
+      "type": "number"
+    },
+    "gutter": {
+      "minimum": 0,
+      "title": "Gutter",
+      "type": "number"
+    },
+    "id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "margins": {
+      "$ref": "#/$defs/Margins"
+    },
+    "name": {
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "page_size": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CustomPageSize"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "reading_order": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Reading Order",
+      "type": "array"
+    },
+    "schema": {
+      "const": "comic-smith/layout@1",
+      "default": "comic-smith/layout@1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "sizes": {
+      "items": {
+        "$ref": "#/$defs/PageSize"
+      },
+      "minItems": 1,
+      "title": "Sizes",
+      "type": "array"
+    },
+    "slots": {
+      "items": {
+        "$ref": "#/$defs/Slot"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Slots",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "sizes",
+    "margins",
+    "gutter",
+    "bleed",
+    "slots",
+    "reading_order"
+  ],
+  "title": "LayoutTemplate",
+  "type": "object"
+}

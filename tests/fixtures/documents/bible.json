@@ -1,0 +1,18 @@
+{
+  "schema": "comic-smith/bible@1",
+  "working_title": "Puddle, the Duck Who Would Not Swim",
+  "logline": "A little rubber duck who is afraid of water must cross the bathtub to save a friend.",
+  "premise": "Puddle lives on the edge of a bathtub and watches the bath toys play...",
+  "audience": "kids-5-8",
+  "tone": ["gentle", "funny", "brave"],
+  "setting": {"world": "a family bathroom at bath time", "rules": ["toys come alive when no adult looks"]},
+  "cast": [
+    {"character_id": "ch_puddle", "role": "protagonist", "want": "stay dry", "need": "trust friends"},
+    {"character_id": "ch_sub", "role": "friend", "want": "explore the drain", "need": "listen"}
+  ],
+  "themes": ["courage", "friendship"],
+  "arc": {"template": "problem-try-try-succeed", "target_strips": 8,
+          "stages": ["setup", "problem", "try-1", "try-2", "dark-moment", "success", "home"]},
+  "open_threads": [{"id": "t1", "text": "Sub drifts toward the drain", "opened_in_strip": 2, "closed_in_strip": null}],
+  "style_id": "st_picture_book_watercolor"
+}

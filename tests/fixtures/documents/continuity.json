@@ -1,0 +1,13 @@
+{
+  "schema": "comic-smith/continuity@1",
+  "story_id": "sy_01J0000000000000000000000A",
+  "checked_at": "2026-11-02T16:00:00Z",
+  "issues": [
+    {"id": "c1", "kind": "unresolved_thread", "severity": "warn", "strip": 2,
+     "text": "Sub drifts toward the drain is never resolved.", "thread_id": "t1"},
+    {"id": "c2", "kind": "vanished_character", "severity": "warn", "strip": 6,
+     "text": "Grandma Sponge appears in strip 4 and never returns.", "character_id": "ch_sponge"}
+  ],
+  "titles": ["Puddle Takes the Plunge", "The Duck Who Would Not Swim", "Puddle and the Drain"],
+  "blurb": "A rubber duck conquers the bathtub, one wobbly raft at a time."
+}

@@ -1,0 +1,27 @@
+# Audience rule blocks appended to every system prompt (FR-028). Keys are Audience values.
+version: 1
+audiences:
+  all-ages:
+    - Keep everything suitable for a family: no gore, no strong language, no sexual content.
+    - Peril is mild and always resolved kindly.
+    - At most 14 words per balloon and 3 balloons per panel.
+    - Plain vocabulary a ten year old can read.
+  kids-5-8:
+    - At most 10 words per balloon and at most 2 balloons per panel.
+    - Short sentences, common words, gentle humor.
+    - No peril beyond mild, brief worry that is resolved by kindness or cleverness.
+    - No violence, weapons, injury, death, scary monsters, romance, or strong language.
+    - Characters solve problems by helping, trying again, and working together.
+  kids-9-12:
+    - At most 14 words per balloon and at most 3 balloons per panel.
+    - Mild action and cartoon peril are fine; no gore, no realistic injury, no death on the page.
+    - No weapons used against people, no strong language, no sexual content or romance beyond a crush.
+    - Themes of friendship, courage, and curiosity work well.
+  teen:
+    - At most 18 words per balloon and at most 4 balloons per panel.
+    - Action, danger, and emotional themes are fine; keep violence non-graphic.
+    - No sexual content, no graphic injury, no slurs, no glorifying self-harm or drug use.
+  adult:
+    - At most 24 words per balloon and at most 5 balloons per panel.
+    - Mature themes are allowed; no sexual content involving minors, no sexually explicit material.
+    - No real hate speech, no instructions for crimes or weapons, no depictions of real people.
