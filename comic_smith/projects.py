@@ -256,14 +256,14 @@ def list_projects(settings: Settings, include_archived: bool = False) -> list[Pr
 def resolve_project_path(settings: Settings, ref: str) -> Path:
     """Find a project folder from a slug, project id, name, or an explicit folder path.
 
-    Order: an explicit path (contains a separator or starts with `.`/`~`), the slug folder, a
+    Order: an explicit path (absolute, contains `/` or `\\`, or starts with `.`/`~`), the slug folder, a
     `prj_` id, then a case-insensitive name. Archived projects resolve too.
 
     Raises:
         ProjectNotFoundError: Nothing matches.
         ProjectError: The name matches more than one project.
     """
-    if "/" in ref or ref.startswith((".", "~")):
+    if "/" in ref or "\\" in ref or ref.startswith((".", "~")) or Path(ref).is_absolute():
         explicit = Path(ref).expanduser()
         if (explicit / DB_NAME).is_file():
             return explicit
