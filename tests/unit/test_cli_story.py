@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from click import unstyle
 from typer.testing import CliRunner
 
 from comic_smith.cli import app
@@ -223,7 +224,8 @@ def test_cli_all_story_commands_support_json_flag() -> None:
         "auto",
         "history",
     ):
-        assert "--json" in run(name, "--help")
+        # Rich forces color on CI runners, and the styling splits "--json" in the raw output.
+        assert "--json" in unstyle(run(name, "--help"))
 
 
 def test_parse_assignments_nests_dotted_keys_and_parses_json() -> None:
